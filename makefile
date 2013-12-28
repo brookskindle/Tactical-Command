@@ -17,7 +17,7 @@ LIBS=-lsfml-system -lsfml-graphics -lsfml-window
 #executable name
 EX=devilDogs
 #sources
-SOURCES=main.cpp
+SOURCES=main.cpp Game.cpp
 #source objects
 OBJECTS=$(SOURCES:.cpp=.o)
 
