@@ -32,8 +32,8 @@ Game::GameStatus Game::getStatus() {
 
 
 /* sets the current game status */
-void Game::setStatus(Game::GameStatus stat) {
-    Game::_status = stat;
+void Game::setStatus(Game::GameStatus status) {
+    Game::_status = status;
 }//end setStatus
 
 

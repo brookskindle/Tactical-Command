@@ -20,7 +20,7 @@ class Game {
         };
         static void start();
         static GameStatus getStatus();
-        static void setStatus(GameStatus stat);
+        static void setStatus(GameStatus status);
     private:
         static bool isExiting();
         static void gameLoop();
