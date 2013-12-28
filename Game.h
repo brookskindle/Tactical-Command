@@ -8,7 +8,7 @@ Game.h      -       header file for Game class
 #ifndef GAME_H
 #define GAME_H
 
-#include <SFML/Graphics.hpp>
+#include <string>
 
 /* the game itself */
 class Game {
@@ -16,28 +16,20 @@ class Game {
         static const std::string GAME_NAME;
         enum GameStatus {
             Uninitialized, Playing, Exiting, ShowingMainMenu,
-            ShowingHelpMenu, ShowingSplashScreen
+            ShowingSplashScreen
         };
-
         static void start();
         static GameStatus getStatus();
         static void setStatus(GameStatus stat);
-        static sf::RenderWindow &getWindow();
-        //static GameObjectManager &getGameObjectManager();
-        //static World &getWorld();
-
     private:
         static bool isExiting();
         static void gameLoop();
         static void showMainMenu();
-        static void showHelpMenu();
         static void showSplashScreen();
+        static void playRound();
 
         //attributes
-        static GameStatus status;
-        static sf::Clock clock;
-        //static GameObjectManager _gameObjectManager;
-        //static World _world;
+        static GameStatus _status;
 };//end Game
 
 #endif
