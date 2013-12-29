@@ -4,12 +4,16 @@ Brooks Kindle brooks.kindle@wsu.edu
 Game.cpp    -       source file for Game class
 */
 
+#include <algorithm>
 #include "Game.h"
+#include "HumanPlayer.h"
 using std::string;
+using std::vector;
 
 //initialize Game attributes
 Game::GameStatus Game::_status = Game::Uninitialized;
 const string Game::GAME_NAME = "Tactical Command";
+vector<Player *> Game::players;
 
 
 /* starts the game if not already done so */
@@ -65,6 +69,7 @@ void Game::gameLoop() {
 
 /* Displays the start menu to the screen */
 void Game::showMainMenu() {
+    players.push_back(new HumanPlayer());
     setStatus(Playing);
 }//end showMainMenu
 
@@ -78,5 +83,13 @@ void Game::showSplashScreen() {
 /* Updates the logic of the game by one round. A round means
 that each player gets to play one turn */
 void Game::playRound() {
+    for(Player *const p : players) {
+            //TODO: prevent dead players from playing a turn
+            vector<Player *> others = players;
+            if(p) {
+                std::remove(others.begin(), others.end(), p);
+                p->playTurn(others);
+            }
+    }
     setStatus(Exiting);
 }//end playRound

@@ -13,8 +13,9 @@ HumanPlayer.h   -   header file for HumanPlayer class
 /* A player that is human controlled */
 class HumanPlayer : public Player {
     public:
-        virtual ~HumanPlayer();
-        virtual void playTurn(std::vector<Player> &others) const override;
+        HumanPlayer();
+        virtual ~HumanPlayer() override;
+        virtual void playTurn(const std::vector<Player *> &) const override;
 };//end HumanPlayer
 
 #endif

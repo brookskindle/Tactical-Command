@@ -12,6 +12,11 @@ using std::cout;
 using std::cin;
 using std::endl;
 
+/* Constructs the human player */
+HumanPlayer::HumanPlayer() {
+}//end constructor
+
+
 /* Destructs the player */
 HumanPlayer::~HumanPlayer() {
 }//end destructor
@@ -19,7 +24,7 @@ HumanPlayer::~HumanPlayer() {
 
 /* Plays one turn of the player (which probably involves
 firing shots at one of the other players) */
-void HumanPlayer::playTurn(vector<Player> &others) const {
+void HumanPlayer::playTurn(const std::vector<Player *> &others) const {
     cout << "There are " << others.size() << " players.\n";
     cout << "Which player do you want to shoot at?\n(Enter a number between ";
     cout << "0 and " << others.size() - 1 << "): ";
@@ -32,5 +37,5 @@ void HumanPlayer::playTurn(vector<Player> &others) const {
     cin >> row >> col; //get firing coordinates
 
     /* Shoot the bugger, Ender */
-    shoot(Coordinate(row, col), others[i]);
+    shoot(Coordinate(row, col), *(others[i]));
 }//end playTurn

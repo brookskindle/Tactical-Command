@@ -8,7 +8,9 @@ Game.h      -       header file for Game class
 #ifndef GAME_H
 #define GAME_H
 
+#include <vector>
 #include <string>
+#include "Player.h"
 
 /* the game itself */
 class Game {
@@ -30,6 +32,7 @@ class Game {
 
         //attributes
         static GameStatus _status;
+        static std::vector<Player *> players;
 };//end Game
 
 #endif
