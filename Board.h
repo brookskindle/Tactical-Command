@@ -15,6 +15,7 @@ class Board {
     public:
         Board(unsigned int rows, unsigned int columns);
         Board(const Board &);
+        Board &operator=(const Board &);
         ~Board();
         unsigned int rows() const;
         unsigned int columns() const;

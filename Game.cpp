@@ -9,7 +9,7 @@ using std::string;
 
 //initialize Game attributes
 Game::GameStatus Game::_status = Game::Uninitialized;
-const string Game::GAME_NAME = "Devil Dogs";
+const string Game::GAME_NAME = "Tactical Command";
 
 
 /* starts the game if not already done so */

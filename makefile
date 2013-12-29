@@ -15,7 +15,7 @@ CFLAGS=-Wall -std=c++11
 #additional libraries
 LIBS=-lsfml-system -lsfml-graphics -lsfml-window 
 #executable name
-EX=devilDogs
+EX=tacticalCommand
 #sources
 SOURCES=main.cpp Game.cpp Board.cpp Player.cpp
 #source objects

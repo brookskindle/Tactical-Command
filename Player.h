@@ -12,8 +12,8 @@ Player.h    -   header file for Player class
 #include "Coordinate.h"
 
 namespace std {
-    template <class Player>
-    class vector; //forward declare vector
+    template <class T>
+    class vector<T>; //forward declare vector
 };
 
 /* Abstract class for game players (could be user 
@@ -21,6 +21,8 @@ controlled or computer controlled) */
 class Player {
     public:
         Player();
+        Player(const Player &);
+        Player &operator=(const Player &);
         virtual ~Player() = 0;
         int id() const;
         const Board &board() const;

@@ -19,6 +19,15 @@ Board::Board(const Board &cpy) {
 }//end copy constructor
 
 
+/* Overloaded assignment operator */
+Board &Board::operator=(const Board &toCopy) {
+    if(this != &toCopy) { //avoid self-assignment
+        copy(toCopy._board, toCopy.rows(), toCopy.columns());
+    }
+    return *this;
+}//end operator=
+
+
 /* destructs the board */
 Board::~Board() {
     uninitialize();
