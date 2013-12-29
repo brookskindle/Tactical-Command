@@ -8,13 +8,14 @@ Board.cpp   -   source file for Board class
 #include "Board.h"
 
 /* constructs the board with the given size */
-Board::Board(unsigned int rows, unsigned int columns) {
+Board::Board(unsigned int rows, unsigned int columns)
+:_board(nullptr), _rows(0), _columns(0) {
     initialize(rows, columns);
 }//end constructor
 
 
 /* constructs the board from another board */
-Board::Board(const Board &cpy) {
+Board::Board(const Board &cpy) :_board(nullptr), _rows(0), _columns(0) {
     copy(cpy._board, cpy.rows(), cpy.columns());
 }//end copy constructor
 

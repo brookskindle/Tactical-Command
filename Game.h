@@ -30,6 +30,7 @@ class Game {
         static void showMainMenu();
         static void showSplashScreen();
         static void playRound();
+        static void displayGame();
 
         //attributes
         static GameStatus _status;

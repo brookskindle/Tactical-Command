@@ -6,12 +6,15 @@ Game.cpp    -       source file for Game class
 
 #include <algorithm>
 #include <stdlib.h> //for rand() and srand()
+#include <iostream>
 #include <time.h> //for time()
 #include "Game.h"
 #include "HumanPlayer.h"
 #include "ComputerPlayer.h"
 using std::string;
 using std::vector;
+using std::cout;
+using std::endl;
 
 //initialize Game attributes
 Game::GameStatus Game::_status = Game::Uninitialized;
@@ -114,3 +117,22 @@ void Game::playRound() {
         setStatus(Exiting);
     }
 }//end playRound
+
+
+/* Prints the gameboards of each player to the screen */
+void Game::displayGame() {
+    for(Player *p : players) { //for each player
+        if(!p) { //NULL player
+            continue;
+        }
+        /* Display the game board for the player */
+        cout << "Player #" << p->id() << endl;
+        for(int i = 0; i < p->board().rows(); i++) {
+            for(int j = 0; j < p->board().columns(); j++) {
+                cout << p->board()[i][j];
+            }//end for j
+            cout << endl;
+        }//end for i
+        cout << "\n\n";
+    }//end for Player *p
+}//end displayGame
