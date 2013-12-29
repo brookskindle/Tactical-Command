@@ -5,6 +5,8 @@ Game.cpp    -       source file for Game class
 */
 
 #include <algorithm>
+#include <stdlib.h> //for rand() and srand()
+#include <time.h> //for time()
 #include "Game.h"
 #include "HumanPlayer.h"
 using std::string;
@@ -19,6 +21,8 @@ vector<Player *> Game::players;
 /* starts the game if not already done so */
 void Game::start() {
     if(getStatus() == Uninitialized) {
+        srand(time(NULL)); //seed random values
+
         setStatus(ShowingSplashScreen);
         /* start the game */
         while(!isExiting()) {

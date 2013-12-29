@@ -17,7 +17,8 @@ LIBS=-lsfml-system -lsfml-graphics -lsfml-window
 #executable name
 EX=tacticalCommand
 #sources
-SOURCES=main.cpp Game.cpp Board.cpp Player.cpp HumanPlayer.cpp
+SOURCES=main.cpp Game.cpp Board.cpp Player.cpp HumanPlayer.cpp\
+ComputerPlayer.cpp
 #source objects
 OBJECTS=$(SOURCES:.cpp=.o)
 

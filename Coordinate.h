@@ -13,6 +13,7 @@ struct Coordinate {
     unsigned int row;
     unsigned int col;
     Coordinate(unsigned int row, unsigned int col):row(row), col(col) {}
+    Coordinate() :row(0), col(0) {}
 };//end Coordinate
 
 #endif

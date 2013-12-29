@@ -90,6 +90,6 @@ bool Player::shoot(Coordinate loc, Player &targ) const {
 
 
 /* Returns the player's board */
-Board &Player::board() {
+Board &Player::getBoard() {
     return _board;
 }//end board

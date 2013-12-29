@@ -33,7 +33,7 @@ class Player {
         bool dead() const;
     protected:
         bool shoot(Coordinate loc, Player &targ) const;
-        Board &board();
+        Board &getBoard();
     private:
         const int _id;
         Board _board;
