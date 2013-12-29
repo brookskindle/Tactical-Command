@@ -5,7 +5,6 @@ brooks.kindle@wsu.edu
 Player.cpp  -   source file for Player class
 */
 
-#include <vector>
 #include "Player.h"
 using std::vector;
 
@@ -75,8 +74,8 @@ bool Player::dead() const {
 /* Fires a shot at another player. Return true if a hit, else return false */
 bool Player::shoot(Coordinate loc, Player &targ) const {
     bool hit_ = false;
-    if(loc.row >= 0 && loc.row < targ.board().rows() && //valid coordinate
-       loc.col >= 0 && loc.col < targ.board().columns()) {
+    if(loc.row < targ.board().rows() && //valid coordinate
+       loc.col < targ.board().columns()) {
 
            if(targ.board()[loc.row][loc.col] != hit && //un-used coordinate
               targ.board()[loc.row][loc.col] != miss) {
@@ -88,3 +87,9 @@ bool Player::shoot(Coordinate loc, Player &targ) const {
     }//end if
     return hit_;
 }//end shoot
+
+
+/* Returns the player's board */
+Board &Player::board() {
+    return _board;
+}//end board

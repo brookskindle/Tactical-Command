@@ -12,6 +12,7 @@ Coordinate.h    -   header file for Coordinate struct
 struct Coordinate {
     unsigned int row;
     unsigned int col;
+    Coordinate(unsigned int row, unsigned int col):row(row), col(col) {}
 };//end Coordinate
 
 #endif

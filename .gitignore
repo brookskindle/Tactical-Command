@@ -7,4 +7,5 @@ Debug
 *.swp
 *.o
 *.swp
-devilDogs
+tacticalCommand
+.ycm*
