@@ -25,6 +25,7 @@ class Game {
         static void setStatus(GameStatus status);
     private:
         static bool isExiting();
+        static bool finished();
         static void gameLoop();
         static void showMainMenu();
         static void showSplashScreen();

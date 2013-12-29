@@ -9,6 +9,7 @@ Game.cpp    -       source file for Game class
 #include <time.h> //for time()
 #include "Game.h"
 #include "HumanPlayer.h"
+#include "ComputerPlayer.h"
 using std::string;
 using std::vector;
 
@@ -51,6 +52,20 @@ bool Game::isExiting() {
 }//end isExiting
 
 
+/* Returns whether or not the game is finished playing. This
+is the same thing as saying if the number of players left
+alive is equal to one */
+bool Game::finished() {
+    int alive = players.size(); //number of alive players
+    for(Player *p : players) {
+        if(p && p->dead()) {
+            alive--;
+        }
+    }//end for
+    return alive <= 1;
+}//end finished
+
+
 /* Runs and updates the game at each tick of the game clock */
 void Game::gameLoop() {
     /* determine what to do based on what state the game is in */
@@ -74,6 +89,7 @@ void Game::gameLoop() {
 /* Displays the start menu to the screen */
 void Game::showMainMenu() {
     players.push_back(new HumanPlayer());
+    players.push_back(new ComputerPlayer());
     setStatus(Playing);
 }//end showMainMenu
 
@@ -87,13 +103,14 @@ void Game::showSplashScreen() {
 /* Updates the logic of the game by one round. A round means
 that each player gets to play one turn */
 void Game::playRound() {
-    for(Player *const p : players) {
-            //TODO: prevent dead players from playing a turn
+    for(Player *p : players) {
             vector<Player *> others = players;
-            if(p) {
-                std::remove(others.begin(), others.end(), p);
+            if(p && !p->dead()) {
+                others.erase(std::remove(others.begin(), others.end(), p));
                 p->playTurn(others);
             }
     }
-    setStatus(Exiting);
+    if(finished()) { //only one player remains
+        setStatus(Exiting);
+    }
 }//end playRound
