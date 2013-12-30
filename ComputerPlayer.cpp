@@ -14,6 +14,43 @@ ComputerPlayer::~ComputerPlayer() {
 }//end destructor
 
 
+/* Places the ship tokens on the board */
+void ComputerPlayer::placeTokens() {
+    //place destroyer (5 spots)
+    int row = 0, col = 0;
+    getBoard()[row++][col] = token_t::destroyer;
+    getBoard()[row++][col] = token_t::destroyer;
+    getBoard()[row++][col] = token_t::destroyer;
+    getBoard()[row++][col] = token_t::destroyer;
+    getBoard()[row++][col++] = token_t::destroyer;
+
+    //place frigate (4 spots)
+    row = 0;
+    getBoard()[row++][col] = token_t::frigate;
+    getBoard()[row++][col] = token_t::frigate;
+    getBoard()[row++][col] = token_t::frigate;
+    getBoard()[row++][col++] = token_t::frigate;
+
+    //place crusader (3 spots)
+    row = 0;
+    getBoard()[row++][col] = token_t::crusader;
+    getBoard()[row++][col] = token_t::crusader;
+    getBoard()[row++][col++] = token_t::crusader;
+
+    //place vaklyrie (3 spots)
+    row = 0;
+    getBoard()[row++][col] = token_t::valkyrie;
+    getBoard()[row++][col] = token_t::valkyrie;
+    getBoard()[row++][col++] = token_t::valkyrie;
+
+    //place interceptor (2 spots)
+    row = 0;
+    getBoard()[row++][col] = token_t::interceptor;
+    getBoard()[row++][col] = token_t::interceptor;
+
+}//end placeTokens
+
+
 /* Plays a turn for the player */
 void ComputerPlayer::playTurn(const vector<Player *> &others) const {
     /* determine randomly which player to shoot at */

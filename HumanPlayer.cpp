@@ -22,6 +22,42 @@ HumanPlayer::~HumanPlayer() {
 }//end destructor
 
 
+/* Places ship tokens on the player's board */
+void HumanPlayer::placeTokens() {
+    //place destroyer (5 spots)
+    int row = 0, col = 0;
+    getBoard()[row++][col] = token_t::destroyer;
+    getBoard()[row++][col] = token_t::destroyer;
+    getBoard()[row++][col] = token_t::destroyer;
+    getBoard()[row++][col] = token_t::destroyer;
+    getBoard()[row++][col++] = token_t::destroyer;
+
+    //place frigate (4 spots)
+    row = 0;
+    getBoard()[row++][col] = token_t::frigate;
+    getBoard()[row++][col] = token_t::frigate;
+    getBoard()[row++][col] = token_t::frigate;
+    getBoard()[row++][col++] = token_t::frigate;
+
+    //place crusader (3 spots)
+    row = 0;
+    getBoard()[row++][col] = token_t::crusader;
+    getBoard()[row++][col] = token_t::crusader;
+    getBoard()[row++][col++] = token_t::crusader;
+
+    //place vaklyrie (3 spots)
+    row = 0;
+    getBoard()[row++][col] = token_t::valkyrie;
+    getBoard()[row++][col] = token_t::valkyrie;
+    getBoard()[row++][col++] = token_t::valkyrie;
+
+    //place interceptor (2 spots)
+    row = 0;
+    getBoard()[row++][col] = token_t::interceptor;
+    getBoard()[row++][col] = token_t::interceptor;
+}//end placeTokens
+
+
 /* Plays one turn of the player (which probably involves
 firing shots at one of the other players) */
 void HumanPlayer::playTurn(const std::vector<Player *> &others) const {

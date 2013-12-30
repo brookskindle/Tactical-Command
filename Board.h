@@ -9,6 +9,7 @@ Board.h -   header file for Board class
 #define BOARD_H
 
 #include "Tokens.h"
+#include "Coordinate.h"
 
 /* player's game board that the game is played out on */
 class Board {
@@ -21,6 +22,9 @@ class Board {
         unsigned int columns() const;
         const token_t *const operator[](int) const;
         token_t *const operator[](int);
+        token_t operator[](Coordinate) const;
+        token_t &operator[](Coordinate);
+        bool valid(Coordinate c) const;
     private:
         token_t **_board;
         unsigned int _rows;

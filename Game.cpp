@@ -91,8 +91,14 @@ void Game::gameLoop() {
 
 /* Displays the start menu to the screen */
 void Game::showMainMenu() {
-    players.push_back(new HumanPlayer());
-    players.push_back(new ComputerPlayer());
+    Player *p = new HumanPlayer();
+    p->placeTokens();
+    players.push_back(p);
+
+    p = new ComputerPlayer();
+    p->placeTokens();
+    players.push_back(p);
+
     setStatus(Playing);
 }//end showMainMenu
 
@@ -106,6 +112,7 @@ void Game::showSplashScreen() {
 /* Updates the logic of the game by one round. A round means
 that each player gets to play one turn */
 void Game::playRound() {
+    displayGame();
     for(Player *p : players) {
             vector<Player *> others = players;
             if(p && !p->dead()) {

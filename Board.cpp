@@ -61,6 +61,25 @@ token_t *const Board::operator[](int i) {
 }//end operator[]
 
 
+/* Returns the token at the given coordinate */
+token_t Board::operator[](Coordinate c) const {
+    return _board[c.row][c.col];
+}//end operator[]
+
+
+/* Returns the token at the given coordinate */
+token_t &Board::operator[](Coordinate c) {
+    return _board[c.row][c.col];
+}//end operator[]
+
+
+/* Returns true if the given coordinate is within the boundaries of the board.
+Return false otherwise */
+bool Board::valid(Coordinate c) const {
+    return c.row < rows() && c.col < columns();
+}//end valid
+
+
 /* Allocates memory for the game board and initializes all areas
 to the default space token */
 void Board::initialize(unsigned int rows, unsigned int columns) {

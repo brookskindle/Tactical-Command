@@ -15,6 +15,7 @@ class HumanPlayer : public Player {
     public:
         HumanPlayer();
         virtual ~HumanPlayer() override;
+        virtual void placeTokens() override;
         virtual void playTurn(const std::vector<Player *> &) const override;
 };//end HumanPlayer
 

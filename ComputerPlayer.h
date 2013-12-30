@@ -10,9 +10,11 @@ ComputerPlayer.h    -   header file for ComputerPlayer class
 
 #include "Player.h"
 
+/* A player that is controlled by the computer */
 class ComputerPlayer : public Player {
     public:
         virtual ~ComputerPlayer() override;
+        virtual void placeTokens() override;
         virtual void playTurn(const std::vector<Player *> &) const override;
 };//end ComputerPlayer
 
