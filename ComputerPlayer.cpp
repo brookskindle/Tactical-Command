@@ -15,7 +15,7 @@ ComputerPlayer::~ComputerPlayer() {
 
 
 /* Places the ship tokens on the board */
-void ComputerPlayer::placeTokens() {
+void ComputerPlayer::placeShips() {
     //place DestroyerToken (5 spots)
     int row = 0, col = 0;
     getBoard()[row++][col] = Token::DestroyerToken;
@@ -48,7 +48,7 @@ void ComputerPlayer::placeTokens() {
     getBoard()[row++][col] = Token::InterceptorToken;
     getBoard()[row++][col] = Token::InterceptorToken;
 
-}//end placeTokens
+}//end placeShips
 
 
 /* Plays a turn for the player */

@@ -23,7 +23,7 @@ HumanPlayer::~HumanPlayer() {
 
 
 /* Places ship tokens on the player's board */
-void HumanPlayer::placeTokens() {
+void HumanPlayer::placeShips() {
     //place DestroyerToken (5 spots)
     int row = 0, col = 0;
     getBoard()[row++][col] = Token::DestroyerToken;
@@ -55,7 +55,7 @@ void HumanPlayer::placeTokens() {
     row = 0;
     getBoard()[row++][col] = Token::InterceptorToken;
     getBoard()[row++][col] = Token::InterceptorToken;
-}//end placeTokens
+}//end placeShips
 
 
 /* Plays one turn of the player (which probably involves

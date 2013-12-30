@@ -26,7 +26,7 @@ class Player {
         virtual ~Player() = 0;
         int id() const;
         const Board &board() const;
-        virtual void placeTokens() = 0;
+        virtual void placeShips() = 0;
         virtual void playTurn(const std::vector<Player *> &) const = 0;
         bool dead() const;
     protected:

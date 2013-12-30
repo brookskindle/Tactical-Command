@@ -92,12 +92,12 @@ void Game::gameLoop() {
 
 /* Displays the start menu to the screen */
 void Game::showMainMenu() {
-    Player *p = new HumanPlayer();
-    p->placeTokens();
+    Player *p = new ComputerPlayer();
+    p->placeShips();
     players.push_back(p);
 
     p = new ComputerPlayer();
-    p->placeTokens();
+    p->placeShips();
     players.push_back(p);
 
     setStatus(Playing);
@@ -123,6 +123,7 @@ void Game::playRound() {
     }
     util::pressEnterToContinue(); //wait for user confirmation before continuing
     if(finished()) { //only one player remains
+        displayResults();
         setStatus(Exiting);
     }
 }//end playRound
@@ -145,3 +146,21 @@ void Game::displayGame() {
         cout << "\n";
     }//end for Player *p
 }//end displayGame
+
+
+/* Displays the game results once the game is over. If the game is not over,
+nothing will happen */
+void Game::displayResults() {
+    if(!finished()) {
+        return; //game not over yet
+    }
+
+    cout << "\n\n\n\n\n";
+    /* Step 1: Determine who the winner is */
+    for(Player *p : players) {
+        if(p && !p->dead()) {
+            cout << "Player " << p->id() << " has vanquished all other" <<
+                    " players.\n";
+        }
+    }//end for
+}//end displayResults

@@ -31,6 +31,7 @@ class Game {
         static void showSplashScreen();
         static void playRound();
         static void displayGame();
+        static void displayResults();
 
         //attributes
         static GameStatus _status;

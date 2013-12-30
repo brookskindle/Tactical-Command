@@ -14,7 +14,7 @@ ComputerPlayer.h    -   header file for ComputerPlayer class
 class ComputerPlayer : public Player {
     public:
         virtual ~ComputerPlayer() override;
-        virtual void placeTokens() override;
+        virtual void placeShips() override;
         virtual void playTurn(const std::vector<Player *> &) const override;
 };//end ComputerPlayer
 
