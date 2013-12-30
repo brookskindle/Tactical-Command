@@ -11,6 +11,7 @@ Game.cpp    -       source file for Game class
 #include "Game.h"
 #include "HumanPlayer.h"
 #include "ComputerPlayer.h"
+#include "util.h"
 using std::string;
 using std::vector;
 using std::cout;
@@ -120,6 +121,7 @@ void Game::playRound() {
                 p->playTurn(others);
             }
     }
+    util::pressEnterToContinue(); //wait for user confirmation before continuing
     if(finished()) { //only one player remains
         setStatus(Exiting);
     }
@@ -140,6 +142,6 @@ void Game::displayGame() {
             }//end for j
             cout << endl;
         }//end for i
-        cout << "\n\n";
+        cout << "\n";
     }//end for Player *p
 }//end displayGame
