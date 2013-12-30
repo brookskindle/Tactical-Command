@@ -16,37 +16,37 @@ ComputerPlayer::~ComputerPlayer() {
 
 /* Places the ship tokens on the board */
 void ComputerPlayer::placeTokens() {
-    //place destroyer (5 spots)
+    //place DestroyerToken (5 spots)
     int row = 0, col = 0;
-    getBoard()[row++][col] = token_t::destroyer;
-    getBoard()[row++][col] = token_t::destroyer;
-    getBoard()[row++][col] = token_t::destroyer;
-    getBoard()[row++][col] = token_t::destroyer;
-    getBoard()[row++][col++] = token_t::destroyer;
+    getBoard()[row++][col] = Token::DestroyerToken;
+    getBoard()[row++][col] = Token::DestroyerToken;
+    getBoard()[row++][col] = Token::DestroyerToken;
+    getBoard()[row++][col] = Token::DestroyerToken;
+    getBoard()[row++][col++] = Token::DestroyerToken;
 
-    //place frigate (4 spots)
+    //place FrigateToken (4 spots)
     row = 0;
-    getBoard()[row++][col] = token_t::frigate;
-    getBoard()[row++][col] = token_t::frigate;
-    getBoard()[row++][col] = token_t::frigate;
-    getBoard()[row++][col++] = token_t::frigate;
+    getBoard()[row++][col] = Token::FrigateToken;
+    getBoard()[row++][col] = Token::FrigateToken;
+    getBoard()[row++][col] = Token::FrigateToken;
+    getBoard()[row++][col++] = Token::FrigateToken;
 
-    //place crusader (3 spots)
+    //place CrusaderToken (3 spots)
     row = 0;
-    getBoard()[row++][col] = token_t::crusader;
-    getBoard()[row++][col] = token_t::crusader;
-    getBoard()[row++][col++] = token_t::crusader;
+    getBoard()[row++][col] = Token::CrusaderToken;
+    getBoard()[row++][col] = Token::CrusaderToken;
+    getBoard()[row++][col++] = Token::CrusaderToken;
 
     //place vaklyrie (3 spots)
     row = 0;
-    getBoard()[row++][col] = token_t::valkyrie;
-    getBoard()[row++][col] = token_t::valkyrie;
-    getBoard()[row++][col++] = token_t::valkyrie;
+    getBoard()[row++][col] = Token::ValkyrieToken;
+    getBoard()[row++][col] = Token::ValkyrieToken;
+    getBoard()[row++][col++] = Token::ValkyrieToken;
 
-    //place interceptor (2 spots)
+    //place InterceptorToken (2 spots)
     row = 0;
-    getBoard()[row++][col] = token_t::interceptor;
-    getBoard()[row++][col] = token_t::interceptor;
+    getBoard()[row++][col] = Token::InterceptorToken;
+    getBoard()[row++][col] = Token::InterceptorToken;
 
 }//end placeTokens
 
@@ -61,8 +61,8 @@ void ComputerPlayer::playTurn(const vector<Player *> &others) const {
     do { //pick until we find a spot that hasn't been shot at before
     c.row = rand() % others[i]->board().rows();
     c.col = rand() % others[i]->board().columns();
-    }while(others[i]->board()[c.row][c.col] == hit ||
-           others[i]->board()[c.row][c.col] == miss);
+    }while(others[i]->board()[c.row][c.col] == HitToken ||
+           others[i]->board()[c.row][c.col] == MissToken);
 
     
     /* now shoot at him, robot! */

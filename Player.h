@@ -17,11 +17,8 @@ Player.h    -   header file for Player class
 controlled or computer controlled) */
 class Player {
     public:
-        struct Shot {
-            int targId;
-            Coordinate coord;
-            Shot(int t, Coordinate c):targId(t), coord(c) {}
-            Shot(Coordinate c,int t):targId(t), coord(c) {}
+        enum ShotType {
+            Invalid = -1, Miss, Hit, SinkingHit
         };
         Player();
         Player(const Player &);
@@ -33,7 +30,7 @@ class Player {
         virtual void playTurn(const std::vector<Player *> &) const = 0;
         bool dead() const;
     protected:
-        bool shoot(Coordinate loc, Player &targ) const;
+        ShotType shoot(Coordinate loc, Player &targ) const;
         Board &getBoard();
     private:
         const int _id;

@@ -59,8 +59,8 @@ bool Player::dead() const {
     for(int i = 0; i < _board.rows(); i++) {
 
         for(int j = 0; j < _board.columns(); j++) {
-            token_t token = _board[i][j];
-            if(!(token == space || token == hit || token == miss)) {
+            Token token = _board[i][j];
+            if(!(token == SpaceToken || token == HitToken || token == MissToken)) {
                 return false; //at least 1 ship token
             }
         }//end for j
@@ -71,21 +71,36 @@ bool Player::dead() const {
 }//end dead
 
 
-/* Fires a shot at another player. Return true if a hit, else return false */
-bool Player::shoot(Coordinate loc, Player &targ) const {
-    bool hit_ = false;
+/* Fires a shot at another player. Return true if a HitToken, else return false */
+Player::ShotType Player::shoot(Coordinate loc, Player &targ) const {
+    ShotType HitToken_ = Invalid;
     if(loc.row < targ.board().rows() && //valid coordinate
        loc.col < targ.board().columns()) {
 
-           if(targ.board()[loc.row][loc.col] != hit && //un-used coordinate
-              targ.board()[loc.row][loc.col] != miss) {
-                  /* determine if the shot is a hit or miss */
-                  token_t old = targ.board()[loc.row][loc.col];
-                  hit_ = (old == space) ? false : true;
-                  targ._board[loc.row][loc.col] = (hit_) ? hit : miss;
+           if(targ.board()[loc.row][loc.col] != HitToken && //un-used coordinate
+              targ.board()[loc.row][loc.col] != MissToken) {
+                  /* determine if the shot is a HitToken or MissToken */
+                  Token old = targ.board()[loc.row][loc.col];
+                  HitToken_ = (old == SpaceToken) ? Miss : Hit;
+                  targ._board[loc.row][loc.col] = (HitToken_) ? HitToken : MissToken;
+                  /* determine if the HitToken sank a boat */
+                  if(HitToken_ == Hit) {
+                      HitToken_ = SinkingHit; //assume it sank the ship
+                      for(int i = 0; i < _board.rows(); i++) {
+                          for(int j = 0; j < _board.columns(); j++) {
+                              if(_board[i][j] == old) { //HitToken ship not sunk
+                                  HitToken_ = Hit;
+                                  break;
+                              }
+                          }//end for j
+                          if(HitToken_ == Hit) {
+                              break;
+                          }
+                      }//end for i
+                  }//end if(HitToken_ == Hit)
            }//end if
     }//end if
-    return hit_;
+    return HitToken_;
 }//end shoot
 
 

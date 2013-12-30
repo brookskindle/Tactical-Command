@@ -49,26 +49,26 @@ unsigned int Board::columns() const {
 
 /* Returns the given (unmodifiable) row of the board. Does not perform
 bounds checking */
-const token_t *const Board::operator[](int i) const {
+const Token *const Board::operator[](int i) const {
     return _board[i];
 }//end operator[]
 
 
 /* Returns the given (modifiable) row of the board. Does not
 perform bounds checking */
-token_t *const Board::operator[](int i) {
+Token *const Board::operator[](int i) {
     return _board[i];
 }//end operator[]
 
 
 /* Returns the token at the given coordinate */
-token_t Board::operator[](Coordinate c) const {
+Token Board::operator[](Coordinate c) const {
     return _board[c.row][c.col];
 }//end operator[]
 
 
 /* Returns the token at the given coordinate */
-token_t &Board::operator[](Coordinate c) {
+Token &Board::operator[](Coordinate c) {
     return _board[c.row][c.col];
 }//end operator[]
 
@@ -81,7 +81,7 @@ bool Board::valid(Coordinate c) const {
 
 
 /* Allocates memory for the game board and initializes all areas
-to the default space token */
+to the default SpaceToken token */
 void Board::initialize(unsigned int rows, unsigned int columns) {
     if(_board) {
         uninitialize();
@@ -90,12 +90,12 @@ void Board::initialize(unsigned int rows, unsigned int columns) {
     //begin by allocating memory for our game board
     _rows = rows;
     _columns = columns;
-    _board = new token_t *[_rows]; //create rows
+    _board = new Token *[_rows]; //create rows
 
     for(int i = 0; i < _rows; i++) {
-        _board[i] = new token_t[_columns]; //create columns
+        _board[i] = new Token[_columns]; //create columns
         for(int j = 0; j < _columns; j++) {
-            _board[i][j] = token_t::space;//initialize coordinate to space token
+            _board[i][j] = Token::SpaceToken;//initialize coordinate to SpaceToken token
         }//end for j
     }//end for i
 }//end initialize
@@ -117,7 +117,7 @@ void Board::uninitialize() {
 
 
 /* Changes the board to be an exact (deep) copy of the inputted board */
-void Board::copy(token_t **const board, unsigned int nRows, unsigned int nCols) {
+void Board::copy(Token **const board, unsigned int nRows, unsigned int nCols) {
     if(_board != board) { //prevent self-copy
         if(_rows != nRows && _columns != nCols) { //unequal dimensions
             uninitialize(); //delete old board

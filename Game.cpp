@@ -115,8 +115,8 @@ that each player gets to play one turn */
 void Game::playRound() {
     displayGame();
     for(Player *p : players) {
-            vector<Player *> others = players;
             if(p && !p->dead()) {
+                vector<Player *> others = players;
                 others.erase(std::remove(others.begin(), others.end(), p));
                 p->playTurn(others);
             }

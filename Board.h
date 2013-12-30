@@ -20,19 +20,21 @@ class Board {
         ~Board();
         unsigned int rows() const;
         unsigned int columns() const;
-        const token_t *const operator[](int) const;
-        token_t *const operator[](int);
-        token_t operator[](Coordinate) const;
-        token_t &operator[](Coordinate);
+
+        const Token *const operator[](int) const;
+        Token *const operator[](int);
+        Token operator[](Coordinate) const;
+        Token &operator[](Coordinate);
+
         bool valid(Coordinate c) const;
     private:
-        token_t **_board;
+        Token **_board;
         unsigned int _rows;
         unsigned int _columns;
 
         void initialize(unsigned int rows, unsigned int columns);
         void uninitialize();
-        void copy(token_t **const board, unsigned int nRows, unsigned int nCols);
+        void copy(Token **const board, unsigned int nRows, unsigned int nCols);
 };//end Board
 
 #endif

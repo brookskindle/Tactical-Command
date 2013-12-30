@@ -2,15 +2,16 @@
 Brooks Kindle
 brooks.kindle@wsu.edu
 
-Tokens.h    -   header file for token types (found in the enum token_t)
+Tokens.h    -   header file for token types (found in the enum Token)
 */
 
 #ifndef TOKENS_H
 #define TOKENS_H
 
 /* contains token values for each game piece */
-enum token_t {
-    space, miss, hit, destroyer, frigate, crusader, valkyrie, interceptor
+enum Token {
+    SpaceToken, MissToken, HitToken, DestroyerToken, FrigateToken,
+    CrusaderToken, ValkyrieToken, InterceptorToken
 };
 
 #endif
