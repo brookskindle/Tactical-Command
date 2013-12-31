@@ -54,9 +54,26 @@ MainMenu::MenuAction MainMenu::show(sf::RenderWindow &window) {
     background.setTexture(_background);
     playButton.setTexture(_playButton);
     exitButton.setTexture(_exitButton);
-    sf::Event event;
 
+    //determine how much to scale our sprites
+    sf::Vector2f scale(0.0, 0.0);
+    scale.x = (float)window.getSize().x / _background.getSize().x;
+    scale.y = (float)window.getSize().y / _background.getSize().y;
+
+    //now scale them!
+    background.setScale(scale);
+    playButton.setScale(scale);
+    exitButton.setScale(scale);
+
+    //move buttons to appropriate locations
+    auto tmp = window.getPosition();
+    auto bounds = playButton.getLocalBounds();
+    playButton.setOrigin(bounds.left + bounds.width, bounds.top - bounds.height);
+    playButton.setPosition(tmp.x/2.0, tmp.y/2.0);
+
+    /* loop the main menu until the user chooses to do something */
     while(!done) {
+        sf::Event event;
         while(window.pollEvent(event)) {
             //clear and redraw the window
             window.clear();
@@ -75,7 +92,8 @@ MainMenu::MenuAction MainMenu::show(sf::RenderWindow &window) {
                     //left button clicked
                     if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                         //get the mouse position relative to the window
-                        auto pos = sf::Mouse::getPosition(window); 
+                        auto mouse = sf::Mouse::getPosition(window); 
+                        //TODO: write a function within util to see if a Vector2i is within a sprite
                     }
                     break;
                 default: //some other event, who cares about that?
