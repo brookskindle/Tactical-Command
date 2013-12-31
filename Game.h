@@ -10,6 +10,7 @@ Game.h      -       header file for Game class
 
 #include <vector>
 #include <string>
+#include <SFML/Graphics.hpp>
 #include "Player.h"
 
 /* the game itself */
@@ -34,6 +35,7 @@ class Game {
         static void displayResults();
 
         //attributes
+        static sf::RenderWindow _window;
         static GameStatus _status;
         static std::vector<Player *> players;
 };//end Game

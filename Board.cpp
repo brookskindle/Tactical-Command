@@ -103,7 +103,7 @@ bool Board::contains(Token t, Coordinate c) const {
 /* Returns true if the given coordinates are valid and
 occupied by something other than the space token */
 bool Board::contains(Token t, Coordinate c, Direction d, unsigned int len) const {
-    for(auto c : generateCoordinates(c, d, len)) {
+    for(Coordinate c : generateCoordinates(c, d, len)) {
         if(!contains(t, c)) {
             return false;
         }
