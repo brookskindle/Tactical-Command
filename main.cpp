@@ -13,8 +13,8 @@ using namespace std;
 void testSFML();
 
 int main(void) {
-    testSFML();
-    //Game::start();
+    //testSFML();
+    Game::start();
     return 0;
 }//end main
 

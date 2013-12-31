@@ -22,6 +22,7 @@ class Game {
             ShowingSplashScreen
         };
         static void start();
+        static sf::RenderWindow &getWindow();
         static GameStatus getStatus();
         static void setStatus(GameStatus status);
     private:

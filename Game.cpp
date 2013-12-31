@@ -12,12 +12,14 @@ Game.cpp    -       source file for Game class
 #include "HumanPlayer.h"
 #include "ComputerPlayer.h"
 #include "util.h"
+#include "SplashScreen.h"
 using std::string;
 using std::vector;
 using std::cout;
 using std::endl;
 
 //initialize Game attributes
+sf::RenderWindow Game::_window;
 Game::GameStatus Game::_status = Game::Uninitialized;
 const string Game::GAME_NAME = "Tactical Command";
 vector<Player *> Game::players;
@@ -28,6 +30,7 @@ void Game::start() {
     if(getStatus() == Uninitialized) {
         srand(time(NULL)); //seed random values
 
+        _window.create(sf::VideoMode(1000, 500), Game::GAME_NAME);
         setStatus(ShowingSplashScreen);
         /* start the game */
         while(!isExiting()) {
@@ -36,6 +39,12 @@ void Game::start() {
 
     }//end if(getStatus() == Uninitialized)
 }//end start
+
+
+/* Returns the game window */
+sf::RenderWindow &Game::getWindow() {
+    return _window;
+}//end getWindow
 
 
 /* returns the current status of the game */
@@ -106,6 +115,7 @@ void Game::showMainMenu() {
 
 /* Displays the splash screen to the window */
 void Game::showSplashScreen() {
+    SplashScreen::show(_window);
     setStatus(ShowingMainMenu);
 }//end showSplashScreen
 
