@@ -103,7 +103,16 @@ void Game::gameLoop() {
 /* Displays the start menu to the screen */
 void Game::showMainMenu() {
     MainMenu menu;
-    menu.show(getWindow());
+
+    /* Determine what to do based on what the user entered in the main menu */
+    switch(menu.show(getWindow())) {
+        case MainMenu::Play: //play game
+            break;
+        case MainMenu::Failure: //unable to load main menu
+        case MainMenu::Exit: //exit game
+            setStatus(Exiting);
+            break;
+    };//end switch
     Player *p = new ComputerPlayer();
     p->placeShips();
     players.push_back(p);

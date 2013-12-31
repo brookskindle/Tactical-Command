@@ -7,10 +7,8 @@ MainMenu.cpp        -       source file for MainMenu class
 
 #include <string>
 #include "MainMenu.h"
+#include "util.h"
 using std::string;
-
-#include <iostream>
-using namespace std;
 
 /* Constructs the MainMenu */
 MainMenu::MainMenu() :_loaded(false) {
@@ -89,11 +87,15 @@ MainMenu::MenuAction MainMenu::show(sf::RenderWindow &window) {
                     done = true;
                     break;
                 case sf::Event::MouseButtonPressed: //button clicked
-                    //left button clicked
-                    if(sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
-                        //get the mouse position relative to the window
-                        auto mouse = sf::Mouse::getPosition(window); 
-                        //TODO: write a function within util to see if a Vector2i is within a sprite
+                    //play button pressed
+                    if(util::clicked(playButton, sf::Mouse::Left, window)) {
+                        action = Play;
+                        done = true;
+                    }
+                    //exit button pressed
+                    else if(util::clicked(exitButton, sf::Mouse::Left, window)) {
+                        action = Exit;
+                        done = true;
                     }
                     break;
                 default: //some other event, who cares about that?
@@ -102,6 +104,5 @@ MainMenu::MenuAction MainMenu::show(sf::RenderWindow &window) {
         }//end while(window.pollEvent(event))
     }//end while(!done)
 
-    cout << "Done showing main menu!" << endl;
     return action;
 }//end show
