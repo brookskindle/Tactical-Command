@@ -13,6 +13,7 @@ Game.cpp    -       source file for Game class
 #include "ComputerPlayer.h"
 #include "util.h"
 #include "SplashScreen.h"
+#include "MainMenu.h"
 using std::string;
 using std::vector;
 using std::cout;
@@ -101,6 +102,8 @@ void Game::gameLoop() {
 
 /* Displays the start menu to the screen */
 void Game::showMainMenu() {
+    MainMenu menu;
+    menu.show(getWindow());
     Player *p = new ComputerPlayer();
     p->placeShips();
     players.push_back(p);
