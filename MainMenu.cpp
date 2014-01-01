@@ -64,10 +64,13 @@ MainMenu::MenuAction MainMenu::show(sf::RenderWindow &window) {
     exitButton.setScale(scale);
 
     //move buttons to appropriate locations
-    auto tmp = window.getPosition();
-    auto bounds = playButton.getLocalBounds();
-    playButton.setOrigin(bounds.left + bounds.width, bounds.top - bounds.height);
-    playButton.setPosition(tmp.x/2.0, tmp.y/2.0);
+    exitButton.setPosition(window.getSize().x -
+                            exitButton.getGlobalBounds().width,
+                           window.getSize().y -
+                            exitButton.getGlobalBounds().height);
+    playButton.setPosition(exitButton.getPosition().x,
+                           exitButton.getPosition().y -
+                            playButton.getGlobalBounds().height);
 
     /* loop the main menu until the user chooses to do something */
     while(!done) {
