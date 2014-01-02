@@ -126,8 +126,15 @@ void Game::showMainMenu() {
 
 /* Displays the splash screen to the window */
 void Game::showSplashScreen() {
-    SplashScreen::show(_window);
-    setStatus(ShowingMainMenu);
+    switch(SplashScreen::show(_window)) {
+        case SplashScreen::Continue:
+            setStatus(ShowingMainMenu);
+            break;
+        case SplashScreen::Failure:
+        case SplashScreen::Close:
+            setStatus(Exiting);
+            break;
+    }
 }//end showSplashScreen
 
 
