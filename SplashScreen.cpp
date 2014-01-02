@@ -5,7 +5,6 @@ brooks.kindle@wsu.edu
 SplashScreen.cpp    -       source file for SplashScreen class
 */
 
-#include <ncurses.h>
 #include "SplashScreen.h"
 using std::string;
 
