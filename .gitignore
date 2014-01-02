@@ -9,3 +9,4 @@ Debug
 *.swp
 tacticalCommand
 .ycm*
+*.xcf
