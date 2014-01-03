@@ -29,8 +29,8 @@ class Player {
         virtual void placeShips() = 0;
         virtual void playTurn(const std::vector<Player *> &) const = 0;
         bool dead() const;
-    protected:
         ShotType shoot(Coordinate loc, Player &targ) const;
+    protected:
         Board &getBoard();
     private:
         const int _id;
