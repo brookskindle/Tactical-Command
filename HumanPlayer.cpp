@@ -62,5 +62,11 @@ void HumanPlayer::placeShips() {
 /* Plays one turn of the player (which probably involves
 firing shots at one of the other players) */
 void HumanPlayer::playTurn(const std::vector<Player *> &others) const {
-    _gameScreen.playTurn(Game::getWindow(), *this, others);
+    switch(_gameScreen.playTurn(Game::getWindow(), *this, others)) {
+        case GameScreen::Failure:
+        case GameScreen::Close:
+            Game::setStatus(Game::Exiting);
+        case GameScreen::Continue:
+            break;
+    }//end switch
 }//end playTurn

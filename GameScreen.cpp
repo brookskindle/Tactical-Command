@@ -48,7 +48,15 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
     vector<sf::Sprite> heroSprites; //token sprites for our hero
     vector<TokenButton> otherSprites; //token buttons for the other players
 
-    //create the sprites for our hero first
+    //create the sprites for the background and determine the scale
+    sf::Vector2f scale(0.0, 0.0);
+    scale.x = (float)window.getSize().x / _background.getSize().x;
+    scale.y = (float)window.getSize().y / _background.getSize().y;
+    sf::Sprite background;
+    background.setTexture(_background);
+    background.setScale(scale); //scale image
+
+    //create the sprites for our hero
     sf::Vector2f position;
     position.x = 341.0f;
     position.y = 300.0f;
@@ -59,6 +67,7 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
             sprite = spriteOf(hero.board()[c]);
             sprite.setPosition(position);
             position.x += sprite.getTextureRect().width;
+            sprite.setScale(scale);
             heroSprites.push_back(sprite);
         }//end for j
         position.y += sprite.getTextureRect().height;
@@ -99,6 +108,7 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
                 sprite.setPosition(position);
                 position.x += sprite.getTextureRect().width;
                 button.coord = c;
+                sprite.setScale(scale);
                 button.sprite = sprite;
                 otherSprites.push_back(button);
             }//end for j
@@ -114,6 +124,7 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
 
     //Step 1: draw the sprites to the window
     window.clear();
+    window.draw(background);
     for(auto sprite : heroSprites) {
         window.draw(sprite);
     }
