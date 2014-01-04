@@ -12,7 +12,6 @@ Player.h    -   header file for Player class
 #include "Board.h"
 #include "Coordinate.h"
 
-
 /* Abstract class for game players (could be user 
 controlled or computer controlled) */
 class Player {

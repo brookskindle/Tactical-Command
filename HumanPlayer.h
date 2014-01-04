@@ -9,6 +9,7 @@ HumanPlayer.h   -   header file for HumanPlayer class
 #define HUMANPLAYER_H
 
 #include "Player.h"
+#include "GameScreen.h"
 
 /* A player that is human controlled */
 class HumanPlayer : public Player {
@@ -17,6 +18,8 @@ class HumanPlayer : public Player {
         virtual ~HumanPlayer() override;
         virtual void placeShips() override;
         virtual void playTurn(const std::vector<Player *> &) const override;
+    private:
+        GameScreen _gameScreen;
 };//end HumanPlayer
 
 #endif

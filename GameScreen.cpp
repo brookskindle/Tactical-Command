@@ -142,7 +142,7 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
                             for(Player *p : others) {
                                 if(!p) { continue; }
                                 if(p->id() == button.playerId) { //player found
-                                    p->shoot(button.coord, *p); //shoot player!
+                                    hero.shoot(button.coord, *p); //shoot player!
                                 }
                             }
                         }//end if(util::clicked())

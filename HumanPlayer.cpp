@@ -7,6 +7,7 @@ HumanPlayer.cpp -   contains HumanPlayer (class) source code
 
 #include <iostream>
 #include "HumanPlayer.h"
+#include "Game.h"
 using std::vector;
 using std::cout;
 using std::cin;
@@ -61,19 +62,5 @@ void HumanPlayer::placeShips() {
 /* Plays one turn of the player (which probably involves
 firing shots at one of the other players) */
 void HumanPlayer::playTurn(const std::vector<Player *> &others) const {
-    unsigned int i = 0;
-    if(others.size() != 1) {
-        cout << "There are " << others.size() << " players.\n";
-        cout << "Which player do you want to shoot at?\n(Enter a number between ";
-        cout << "0 and " << others.size() - 1 << "): ";
-        cin >> i; //get player to shoot at
-    }
-
-    cout << "Enter the row and column you wish to fire at.\n";
-    cout << "Enter the numbers with a space between them: ";
-    unsigned int row = 0, col = 0;
-    cin >> row >> col; //get firing coordinates
-
-    /* Shoot the bugger, Ender */
-    shoot(Coordinate(row, col), *(others[i]));
+    _gameScreen.playTurn(Game::getWindow(), *this, others);
 }//end playTurn

@@ -108,7 +108,7 @@ void Game::showMainMenu() {
     /* Determine what to do based on what the user entered in the main menu */
     switch(menu.show(getWindow())) {
         case MainMenu::Play: //play game
-            p = new ComputerPlayer();
+            p = new HumanPlayer();
             p->placeShips();
             players.push_back(p);
             p = new ComputerPlayer();
@@ -141,7 +141,6 @@ void Game::showSplashScreen() {
 /* Updates the logic of the game by one round. A round means
 that each player gets to play one turn */
 void Game::playRound() {
-    displayGame();
     for(Player *p : players) {
             if(p && !p->dead()) {
                 vector<Player *> others = players;
@@ -149,9 +148,7 @@ void Game::playRound() {
                 p->playTurn(others);
             }
     }
-    util::pressEnterToContinue(); //wait for user confirmation before continuing
     if(finished()) { //only one player remains
-        displayResults();
         setStatus(Exiting);
     }
 }//end playRound
