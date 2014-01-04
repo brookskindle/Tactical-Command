@@ -7,6 +7,7 @@ GameScreen.cpp    -   source file for GameScreen class
 
 #include "GameScreen.h"
 #include "Player.h"
+#include "util.h"
 using std::vector;
 
 /* Constructs the game screen */
@@ -69,9 +70,27 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
     for(Player *p : others) {
         if(!p) { continue; }
 
+        TokenButton button;
+        button.playerId = p->id();
+
         sf::Vector2f position;
-        position.x = 341.0f;
-        position.y = 300.0f;
+        int startX = 0;
+        int startY = 0;
+        //determine the starting coordinate of the sprite
+        switch(nPlayers) {
+            case 0: 
+                startX = 341;
+                break;
+            case 1:
+                startX = 0;
+                break;
+            case 2:
+                startX = 683;
+                break;
+        }//end switch
+        position.x = startX;
+        position.y = startY;
+
         for(int i = 0; i < hero.board().rows(); i++) {
             sf::Sprite sprite;
             for(int j = 0; j < hero.board().columns(); j++) {
@@ -79,10 +98,12 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
                 sprite = spriteOf(hero.board()[c]);
                 sprite.setPosition(position);
                 position.x += sprite.getTextureRect().width;
-                heroSprites.push_back(sprite);
+                button.coord = c;
+                button.sprite = sprite;
+                otherSprites.push_back(button);
             }//end for j
             position.y += sprite.getTextureRect().height;
-            position.x = 341.0f;
+            position.x = startX;
         }//end for i
 
         nPlayers++;
@@ -91,9 +112,47 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
         }
     }//end for Player *p
 
-    //TODO: finish this function
     //Step 1: draw the sprites to the window
+    window.clear();
+    for(auto sprite : heroSprites) {
+        window.draw(sprite);
+    }
+    for(auto button : otherSprites) {
+        window.draw(button.sprite);
+    }
+    window.display();
+
     //Step 2: handle window events that transpire
+    bool done = false;
+    do {
+        sf::Event event;
+        while(window.pollEvent(event)) {
+            switch(event.type) {
+                case sf::Event::Closed: //user closes window
+                    action = Close;
+                    done = true;
+                    break;
+                case sf::Event::MouseButtonPressed: //user clicks something
+                    for(auto button : otherSprites) {
+                        //user clicked an enemy ship
+                        if(util::clicked(button.sprite,sf::Mouse::Left,window)){
+                            action = Continue;
+                            done = true;
+                            //find the player to shoot at, and shoot him
+                            for(Player *p : others) {
+                                if(!p) { continue; }
+                                if(p->id() == button.playerId) { //player found
+                                    p->shoot(button.coord, *p); //shoot player!
+                                }
+                            }
+                        }//end if(util::clicked())
+                    }//end for
+                    break;
+                default: //some other event, ignore it yeh?
+                    break;
+            }//end switch
+        }//end while
+    }while(!done);
 
     return action;
 }//end playTurn
