@@ -12,7 +12,7 @@ using std::string;
 
 /* Constructs the MainMenu */
 MainMenu::MainMenu() :_loaded(false) {
-    if(_background.loadFromFile("SplashScreen.png") &&
+    if(_background.loadFromFile("MainMenu.png") &&
        _playButton.loadFromFile("./PlayButton.png") &&
        _exitButton.loadFromFile("./ExitButton.png")) {
         _loaded = true;
