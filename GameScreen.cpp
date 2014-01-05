@@ -100,11 +100,11 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
         position.x = startX;
         position.y = startY;
 
-        for(int i = 0; i < hero.board().rows(); i++) {
+        for(int i = 0; i < p->board().rows(); i++) {
             sf::Sprite sprite;
-            for(int j = 0; j < hero.board().columns(); j++) {
+            for(int j = 0; j < p->board().columns(); j++) {
                 Coordinate c(i, j); //token coordinate
-                sprite = spriteOf(hero.board()[c]);
+                sprite = spriteOf(p->board()[c]);
                 sprite.setPosition(position);
                 position.x += sprite.getTextureRect().width;
                 button.coord = c;
@@ -120,6 +120,7 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
         if(nPlayers >= 3) { 
             break; //done creating sprites for our players
         }
+        position.y = startY;
     }//end for Player *p
 
     //Step 1: draw the sprites to the window
@@ -153,7 +154,13 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
                             for(Player *p : others) {
                                 if(!p) { continue; }
                                 if(p->id() == button.playerId) { //player found
-                                    hero.shoot(button.coord, *p); //shoot player!
+                                    if(hero.shoot(button.coord, *p) == Player::Invalid) { //player already shot this token
+                                        done = false;
+                                        break;
+                                    }
+                                    else {
+                                        return Continue;
+                                    }
                                 }
                             }
                         }//end if(util::clicked())
