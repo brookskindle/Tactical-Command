@@ -54,7 +54,10 @@ void ComputerPlayer::placeShips() {
 /* Plays a turn for the player */
 void ComputerPlayer::playTurn(const vector<Player *> &others) const {
     /* determine randomly which player to shoot at */
-    int i = rand() % others.size();
+    int i = 0;
+    do {
+    i = rand() % others.size();
+    }while(!others[i] || others[i]->dead());
 
     /* randomly pick coordinates and shoot at it */
     Coordinate c;
