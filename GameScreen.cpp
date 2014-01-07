@@ -104,7 +104,23 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
             sf::Sprite sprite;
             for(int j = 0; j < p->board().columns(); j++) {
                 Coordinate c(i, j); //token coordinate
-                sprite = spriteOf(p->board()[c]);
+                //If the player's token is a ship token
+                //use a space token instead. That way, we won't
+                //know where the player placed his ships.
+                switch(p->board()[c]) {
+                    case Token::CrusaderToken:
+                    case Token::DestroyerToken:
+                    case Token::FrigateToken:
+                    case Token::InterceptorToken:
+                    case Token::ValkyrieToken:
+                        sprite = spriteOf(Token::SpaceToken);
+                        break;
+                    case Token::HitToken:
+                    case Token::MissToken:
+                    case Token::SpaceToken:
+                        sprite = spriteOf(p->board()[c]);
+                        break;
+                }
                 sprite.setScale(scale);
                 sprite.setPosition(position);
                 position.x += sprite.getGlobalBounds().width;
