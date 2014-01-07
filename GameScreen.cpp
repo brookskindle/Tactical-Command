@@ -57,9 +57,12 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
     background.setScale(scale); //scale image
 
     //create the sprites for our hero
+    sf::Vector2i spriteStart;
+    spriteStart.x = 341;
+    spriteStart.y = 300;
     sf::Vector2f position;
-    position.x = 341.0f;
-    position.y = 300.0f;
+    position.x = spriteStart.x * scale.x;
+    position.y = spriteStart.y * scale.y;
     for(int i = 0; i < hero.board().rows(); i++) {
         sf::Sprite sprite;
         for(int j = 0; j < hero.board().columns(); j++) {
@@ -71,7 +74,7 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
             heroSprites.push_back(sprite);
         }//end for j
         position.y += sprite.getGlobalBounds().height;
-        position.x = 341.0f;
+        position.x = spriteStart.x * scale.x;
     }//end for i
 
     //create the sprites for the others
@@ -88,13 +91,13 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
         //determine the starting coordinate of the sprite
         switch(nPlayers) {
             case 0: 
-                startX = 341;
+                startX = spriteStart.x * scale.x;
                 break;
             case 1:
                 startX = 0;
                 break;
             case 2:
-                startX = 674;
+                startX = 683 * scale.x;
                 break;
         }//end switch
         position.x = startX;
@@ -118,6 +121,7 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
                     case Token::HitToken:
                     case Token::MissToken:
                     case Token::SpaceToken:
+                    default:
                         sprite = spriteOf(p->board()[c]);
                         break;
                 }
