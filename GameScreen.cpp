@@ -77,7 +77,7 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
     //create the sprites for the others
     int nPlayers = 0; //number of players we've created sprites for
     for(Player *p : others) {
-        if(!p) { continue; }
+        if(!p || p->dead()) { continue; }
 
         TokenButton button;
         button.playerId = p->id();
