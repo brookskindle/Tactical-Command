@@ -21,6 +21,7 @@ using std::endl;
 
 //initialize Game attributes
 sf::RenderWindow Game::_window;
+sf::Image Game::_icon;
 Game::GameStatus Game::_status = Game::Uninitialized;
 const string Game::GAME_NAME = "Tactical Command";
 vector<Player *> Game::players;
@@ -32,6 +33,9 @@ void Game::start() {
         srand(time(NULL)); //seed random values
 
         _window.create(sf::VideoMode(1000, 500), Game::GAME_NAME);
+        if(_icon.loadFromFile("icon.png")) {
+            _window.setIcon(256, 256, _icon.getPixelsPtr());
+        }
         setStatus(ShowingSplashScreen);
         /* start the game */
         while(!isExiting()) {

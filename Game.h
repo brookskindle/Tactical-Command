@@ -37,6 +37,7 @@ class Game {
 
         //attributes
         static sf::RenderWindow _window;
+        static sf::Image _icon;
         static GameStatus _status;
         static std::vector<Player *> players;
 };//end Game
