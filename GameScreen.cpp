@@ -65,12 +65,12 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
         for(int j = 0; j < hero.board().columns(); j++) {
             Coordinate c(i, j); //token coordinate
             sprite = spriteOf(hero.board()[c]);
-            sprite.setPosition(position);
-            position.x += sprite.getTextureRect().width;
             sprite.setScale(scale);
+            sprite.setPosition(position);
+            position.x += sprite.getGlobalBounds().width;
             heroSprites.push_back(sprite);
         }//end for j
-        position.y += sprite.getTextureRect().height;
+        position.y += sprite.getGlobalBounds().height;
         position.x = 341.0f;
     }//end for i
 
@@ -94,7 +94,7 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
                 startX = 0;
                 break;
             case 2:
-                startX = 683;
+                startX = 674;
                 break;
         }//end switch
         position.x = startX;
@@ -105,14 +105,14 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
             for(int j = 0; j < p->board().columns(); j++) {
                 Coordinate c(i, j); //token coordinate
                 sprite = spriteOf(p->board()[c]);
-                sprite.setPosition(position);
-                position.x += sprite.getTextureRect().width;
-                button.coord = c;
                 sprite.setScale(scale);
+                sprite.setPosition(position);
+                position.x += sprite.getGlobalBounds().width;
+                button.coord = c;
                 button.sprite = sprite;
                 otherSprites.push_back(button);
             }//end for j
-            position.y += sprite.getTextureRect().height;
+            position.y += sprite.getGlobalBounds().height;
             position.x = startX;
         }//end for i
 
