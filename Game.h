@@ -19,7 +19,7 @@ class Game {
         static const std::string GAME_NAME;
         enum GameStatus {
             Uninitialized, Playing, Exiting, ShowingMainMenu,
-            ShowingSplashScreen
+            ShowingSplashScreen, ShowingScoreScreen
         };
         static void start();
         static sf::RenderWindow &getWindow();
@@ -31,6 +31,7 @@ class Game {
         static void gameLoop();
         static void showMainMenu();
         static void showSplashScreen();
+        static void showScoreScreen();
         static void playRound();
         static void displayGame();
         static void displayResults();

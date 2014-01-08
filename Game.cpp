@@ -14,6 +14,7 @@ Game.cpp    -       source file for Game class
 #include "util.h"
 #include "SplashScreen.h"
 #include "MainMenu.h"
+#include "ScoreScreen.h"
 using std::string;
 using std::vector;
 using std::cout;
@@ -97,6 +98,9 @@ void Game::gameLoop() {
         case Playing:
             playRound();
             break;
+        case ShowingScoreScreen:
+            showScoreScreen();
+            break;
         case Exiting:
         default:
             break;
@@ -151,6 +155,19 @@ void Game::showSplashScreen() {
 }//end showSplashScreen
 
 
+/* Shows the score screen for the game */
+void Game::showScoreScreen() {
+    ScoreScreen screen;
+    switch(screen.show(_window, players)) {
+        case ScoreScreen::Failure:
+        case ScoreScreen::Close:
+        case ScoreScreen::Continue:
+            setStatus(Exiting);
+            break;
+    }//end switch
+}//end showScoreScreen
+
+
 /* Updates the logic of the game by one round. A round means
 that each player gets to play one turn */
 void Game::playRound() {
@@ -162,7 +179,7 @@ void Game::playRound() {
             }
     }
     if(finished()) { //only one player remains
-        setStatus(Exiting);
+        setStatus(ShowingScoreScreen);
     }
 }//end playRound
 
