@@ -5,8 +5,6 @@ brooks.kindle@wsu.edu
 ScoreScreen.cpp   -   source file for ScoreScreen class
 */
 
-#include <iostream>
-using namespace std;
 #include "ScoreScreen.h"
 using std::vector;
 
@@ -30,10 +28,8 @@ ScoreScreen::ExitStatus ScoreScreen::show(sf::RenderWindow &window,
     //Step 0: make sure everything is loaded
     ExitStatus action = Failure;
     if(!loaded()) {
-        cout << "Score Screen not loaded" << endl;
         return action;
     }
-    cout << "Score Screen loaded" << endl;
 
     /* Step 1: find out who the winner is */
     const Player *winner = NULL;
@@ -45,7 +41,6 @@ ScoreScreen::ExitStatus ScoreScreen::show(sf::RenderWindow &window,
     }
 
     if(!winner) { //nobody won, so why are we even showing this screen?
-        cout << "There is no winner!" << endl;
         return action;
     }
 
@@ -63,10 +58,12 @@ ScoreScreen::ExitStatus ScoreScreen::show(sf::RenderWindow &window,
     text.setString("Player #"+std::to_string(winner->id())+" is the winner");
 
     //place text in middle of screen
-    text.setPosition(background.getGlobalBounds().width / 2.0,
-                     background.getGlobalBounds().height / 2.0);
+    float tWidth = text.getGlobalBounds().width, //text width
+          tHeight= text.getGlobalBounds().height;//text height
+    auto  bbounds = background.getGlobalBounds(); //background bounds
+    text.setPosition((bbounds.width - tWidth) / 2.0,
+                     (bbounds.height - tHeight) / 2.0);
 
-    cout << "Drawing score screen to window.. NOW" << endl;
     window.clear();
     window.draw(background);
     window.draw(text);
