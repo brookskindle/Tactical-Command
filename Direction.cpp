@@ -15,9 +15,5 @@ vector<Direction> allDirections() {
     dirs.push_back(South);
     dirs.push_back(East);
     dirs.push_back(West);
-    dirs.push_back(NorthWest);
-    dirs.push_back(NorthEast);
-    dirs.push_back(SouthWest);
-    dirs.push_back(SouthEast);
     return dirs;
 }//end all
