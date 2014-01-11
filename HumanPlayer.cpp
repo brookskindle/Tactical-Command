@@ -10,9 +10,6 @@ HumanPlayer.cpp -   contains HumanPlayer (class) source code
 #include "Game.h"
 #include "util.h"
 using std::vector;
-using std::cout;
-using std::cin;
-using std::endl;
 
 /* Constructs the human player */
 HumanPlayer::HumanPlayer() {

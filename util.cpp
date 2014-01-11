@@ -111,6 +111,5 @@ bool util::placeAllShipsRandomly(Board &board) {
     util::placeRandom(board, Token::ValkyrieToken);
     //place InterceptorToken (2 spots)
     util::placeRandom(board, Token::InterceptorToken);
-
     return true;
 }//end placeAllShipsRandomly

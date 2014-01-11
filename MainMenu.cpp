@@ -73,16 +73,16 @@ MainMenu::MenuAction MainMenu::show(sf::RenderWindow &window) {
                             playButton.getGlobalBounds().height);
 
     /* loop the main menu until the user chooses to do something */
+    //draw the menu
+    window.clear();
+    window.draw(background);
+    window.draw(playButton);
+    window.draw(exitButton);
+    window.display();
+
     while(!done) {
         sf::Event event;
         while(window.pollEvent(event)) {
-            //clear and redraw the window
-            window.clear();
-            window.draw(background);
-            window.draw(playButton);
-            window.draw(exitButton);
-            window.display();
-
             /* Determine what to do given a window event */
             switch(event.type) {
                 case sf::Event::Closed: //window closed
@@ -101,6 +101,13 @@ MainMenu::MenuAction MainMenu::show(sf::RenderWindow &window) {
                         done = true;
                     }
                     break;
+                case sf::Event::Resized:
+                    //clear and redraw the window
+                    window.clear();
+                    window.draw(background);
+                    window.draw(playButton);
+                    window.draw(exitButton);
+                    window.display();
                 default: //some other event, who cares about that?
                     break;
             }//end switch

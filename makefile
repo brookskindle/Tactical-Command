@@ -19,7 +19,7 @@ EX=tacticalCommand
 #sources
 SOURCES=main.cpp Game.cpp Board.cpp Player.cpp HumanPlayer.cpp\
 ComputerPlayer.cpp util.cpp SplashScreen.cpp MainMenu.cpp GameScreen.cpp\
-ScoreScreen.cpp
+ScoreScreen.cpp Direction.cpp PlacementMenu.cpp
 #source objects
 OBJECTS=$(SOURCES:.cpp=.o)
 

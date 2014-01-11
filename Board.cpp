@@ -94,17 +94,17 @@ bool Board::valid(Coordinate c, Direction d, unsigned int len) const {
 
 
 /* Returns true if the given coordinate is valid and 
-occupied by something other than the space token */
+occupied by the given token */
 bool Board::contains(Token t, Coordinate c) const {
     return valid(c) && (*this)[c.row][c.col] == t;
 }//end contains
 
 
 /* Returns true if the given coordinates are valid and
-occupied by something other than the space token */
+occupied by the given token */
 bool Board::contains(Token t, Coordinate c, Direction d, unsigned int len) const {
-    for(Coordinate c : generateCoordinates(c, d, len)) {
-        if(!contains(t, c)) {
+    for(Coordinate coord : generateCoordinates(c, d, len)) {
+        if(!contains(t, coord)) {
             return false;
         }
     }

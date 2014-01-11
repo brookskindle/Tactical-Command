@@ -34,6 +34,7 @@ void Game::start() {
         srand(time(NULL)); //seed random values
 
         _window.create(sf::VideoMode(1000, 500), Game::GAME_NAME);
+        _window.setVerticalSyncEnabled(true);
         if(_icon.loadFromFile("icon.png")) {
             _window.setIcon(256, 256, _icon.getPixelsPtr());
         }
