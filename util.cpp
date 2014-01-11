@@ -7,6 +7,7 @@ util.cpp    -   source file for util namespace
 
 #include <iostream>
 #include <limits>
+#include <algorithm>
 #include "util.h"
 using std::cout;
 using std::cin;
@@ -62,6 +63,7 @@ bool util::placeRandom(Board &board, Token ship) {
     bool placed = false;
     Coordinate c;
     auto directions = allDirections();
+    std::random_shuffle(directions.begin(), directions.end());
     do {
         c.row = rand() % board.rows();
         c.col = rand() % board.columns();
