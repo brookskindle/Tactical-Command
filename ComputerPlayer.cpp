@@ -7,6 +7,7 @@ ComputerPlayer.cpp    -   source file for ComputerPlayer class
 
 #include <stdlib.h>
 #include "ComputerPlayer.h"
+#include "util.h"
 using std::vector;
 
 /* Destructs the player */
@@ -16,38 +17,7 @@ ComputerPlayer::~ComputerPlayer() {
 
 /* Places the ship tokens on the board */
 void ComputerPlayer::placeShips() {
-    //place DestroyerToken (5 spots)
-    int row = 0, col = 0;
-    getBoard()[row++][col] = Token::DestroyerToken;
-    getBoard()[row++][col] = Token::DestroyerToken;
-    getBoard()[row++][col] = Token::DestroyerToken;
-    getBoard()[row++][col] = Token::DestroyerToken;
-    getBoard()[row++][col++] = Token::DestroyerToken;
-
-    //place FrigateToken (4 spots)
-    row = 0;
-    getBoard()[row++][col] = Token::FrigateToken;
-    getBoard()[row++][col] = Token::FrigateToken;
-    getBoard()[row++][col] = Token::FrigateToken;
-    getBoard()[row++][col++] = Token::FrigateToken;
-
-    //place CrusaderToken (3 spots)
-    row = 0;
-    getBoard()[row++][col] = Token::CrusaderToken;
-    getBoard()[row++][col] = Token::CrusaderToken;
-    getBoard()[row++][col++] = Token::CrusaderToken;
-
-    //place vaklyrie (3 spots)
-    row = 0;
-    getBoard()[row++][col] = Token::ValkyrieToken;
-    getBoard()[row++][col] = Token::ValkyrieToken;
-    getBoard()[row++][col++] = Token::ValkyrieToken;
-
-    //place InterceptorToken (2 spots)
-    row = 0;
-    getBoard()[row++][col] = Token::InterceptorToken;
-    getBoard()[row++][col] = Token::InterceptorToken;
-
+    util::placeAllShipsRandomly(getBoard());
 }//end placeShips
 
 

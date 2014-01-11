@@ -112,6 +112,36 @@ bool Board::contains(Token t, Coordinate c, Direction d, unsigned int len) const
 }//end contains
 
 
+/* Places the token on the given coordinate, so long as that coordinate
+was previously occupied by the space token (aka, unused). Return true if 
+successful, return false otherwise */
+bool Board::place(Token t, Coordinate c) {
+    bool placed = false;
+    if(contains(Token::SpaceToken, c)) { //okay to replace
+        (*this)[c] = t;
+        placed = true;
+    }//end if
+    return placed;
+}//end place
+
+
+/* Places the token on the given starting coordinate, heading off
+with a given direction for a given number of spaces. Note, the token
+will only be placed if all of the spaces to be occupied are previously
+occupied by the space token. Returns true if the placement of 
+the tokens was successful, returns false otherwise */
+bool Board::place(Token t, Coordinate c, Direction d, unsigned int len) {
+    bool placed = false;
+    if(contains(Token::SpaceToken, c, d, len)) {
+        for(auto coord : generateCoordinates(c, d, len)) {
+            place(t, coord);
+        }
+        placed = true;
+    }
+    return placed;
+}//end place
+
+
 /* Allocates memory for the game board and initializes all areas
 to the default SpaceToken token */
 void Board::initialize(unsigned int rows, unsigned int columns) {

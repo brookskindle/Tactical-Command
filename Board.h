@@ -32,6 +32,8 @@ class Board {
         bool valid(Coordinate c, Direction d, unsigned int len) const;
         bool contains(Token t, Coordinate c) const;
         bool contains(Token t, Coordinate c, Direction d, unsigned int len) const;
+        bool place(Token t, Coordinate c);
+        bool place(Token t, Coordinate c, Direction d, unsigned int len);
     private:
         Token **_board;
         unsigned int _rows;
@@ -40,9 +42,9 @@ class Board {
         void initialize(unsigned int rows, unsigned int columns);
         void uninitialize();
         void copy(Token **const board, unsigned int nRows, unsigned int nCols);
-
         std::vector<Coordinate> generateCoordinates(Coordinate c, Direction d, 
                                                     unsigned int len) const;
+
 };//end Board
 
 #endif

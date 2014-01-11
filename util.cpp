@@ -39,3 +39,56 @@ bool util::clicked(const sf::Sprite &sprite, sf::Mouse::Button button,
     }//end if
     return click;
 }//end clicked
+
+
+/* Places the ship token randomly on the board and returns true if successful,
+false otherwise */
+bool util::placeRandom(Board &board, Token ship) {
+    int len = 2;
+    switch(ship) {
+    case Token::DestroyerToken:
+        len++;
+    case Token::FrigateToken:
+        len++;
+    case Token::CrusaderToken:
+    case Token::ValkyrieToken:
+        len++;
+    case Token::InterceptorToken:
+    default:
+        break;
+    }//end switch
+
+    //Loop until we find a valid coordinate and direction to place the ship
+    bool placed = false;
+    Coordinate c;
+    auto directions = allDirections();
+    do {
+        c.row = rand() % board.rows();
+        c.col = rand() % board.columns();
+        for(Direction d : directions) { 
+            if(board.place(ship, c, d, len)) {
+                placed = true; 
+                break;
+            }
+        }//end for
+    }while(!placed);
+
+    return placed;
+}//end place
+
+
+/* Places all of the ships randomly on the given board */
+bool util::placeAllShipsRandomly(Board &board) {
+    //place DestroyerToken (5 spots)
+    util::placeRandom(board, Token::DestroyerToken);
+    //place FrigateToken (4 spots)
+    util::placeRandom(board, Token::FrigateToken);
+    //place CrusaderToken (3 spots)
+    util::placeRandom(board, Token::CrusaderToken);
+    //place vaklyrie (3 spots)
+    util::placeRandom(board, Token::ValkyrieToken);
+    //place InterceptorToken (2 spots)
+    util::placeRandom(board, Token::InterceptorToken);
+
+    return true;
+}//end placeAllShipsRandomly
