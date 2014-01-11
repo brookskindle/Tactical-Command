@@ -122,15 +122,6 @@ void Game::showMainMenu() {
             p = new ComputerPlayer();
             p->placeShips();
             players.push_back(p);
-            p = new ComputerPlayer();
-            p->placeShips();
-            players.push_back(p);
-            p = new ComputerPlayer();
-            p->placeShips();
-            players.push_back(p);
-            p = new ComputerPlayer();
-            p->placeShips();
-            players.push_back(p);
             setStatus(Playing);
             break;
         case MainMenu::Failure: //unable to load main menu

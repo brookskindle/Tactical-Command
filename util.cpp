@@ -42,6 +42,26 @@ bool util::clicked(const sf::Sprite &sprite, sf::Mouse::Button button,
 }//end clicked
 
 
+/* Returns true if the given text is being
+clicked by the specified mouse button */
+bool util::clicked(const sf::Text &text, sf::Mouse::Button button,
+                   const sf::RenderWindow &relativeTo) {
+    bool click = false;
+    if(sf::Mouse::isButtonPressed(button)) { //correct button is pressed
+        //get the mouse position in "world coordinates"
+        sf::Vector2f mouse = relativeTo.mapPixelToCoords(sf::Mouse::getPosition(relativeTo));
+
+        //get global (with scales, transforms, etc) bounding box of sprite
+        sf::FloatRect bounds = text.getGlobalBounds();
+
+        if(bounds.contains(mouse)) { //sprite has indeed been clicked
+            click = true;
+        }
+    }//end if
+    return click;
+}//end clicked
+
+
 /* Places the ship token randomly on the board and returns true if successful,
 false otherwise */
 bool util::placeRandom(Board &board, Token ship) {
