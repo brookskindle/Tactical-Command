@@ -8,6 +8,7 @@ GameScreen.cpp    -   source file for GameScreen class
 #include "GameScreen.h"
 #include "Player.h"
 #include "util.h"
+#include "Game.h"
 using std::vector;
 
 /* Constructs the game screen */
@@ -50,8 +51,8 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
 
     //create the sprites for the background and determine the scale
     sf::Vector2f scale(0.0, 0.0);
-    scale.x = (float)window.getSize().x / _background.getSize().x;
-    scale.y = (float)window.getSize().y / _background.getSize().y;
+    scale.x = (float)Game::DEFAULT_WIDTH / _background.getSize().x;
+    scale.y = (float)Game::DEFAULT_HEIGHT / _background.getSize().y;
     sf::Sprite background;
     background.setTexture(_background);
     background.setScale(scale); //scale image

@@ -5,8 +5,6 @@ brooks.kindle@wsu.edu
 MainMenu.cpp        -       source file for MainMenu class
 */
 
-#include <iostream>
-using namespace std;
 #include <string>
 #include "MainMenu.h"
 #include "Game.h"
@@ -60,7 +58,6 @@ MainMenu::MenuAction MainMenu::show(sf::RenderWindow &window) {
     sf::Vector2f scale(0.0, 0.0);
     scale.x = (float)Game::DEFAULT_WIDTH / _background.getSize().x;
     scale.y = (float)Game::DEFAULT_HEIGHT / _background.getSize().y;
-    cout << "main menu scale:x=" << scale.x << " y=" << scale.y << endl;
 
     //now scale them!
     background.setScale(scale);

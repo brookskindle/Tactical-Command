@@ -6,6 +6,7 @@ ScoreScreen.cpp   -   source file for ScoreScreen class
 */
 
 #include "ScoreScreen.h"
+#include "Game.h"
 using std::vector;
 
 /* Constructs the score screen */
@@ -48,8 +49,8 @@ ScoreScreen::ExitStatus ScoreScreen::show(sf::RenderWindow &window,
     sf::Text text;
     sf::Sprite background;
     sf::Vector2f scale;
-    scale.x = (float)window.getSize().x / _background.getSize().x;
-    scale.y = (float)window.getSize().y / _background.getSize().y;
+    scale.x = (float)Game::DEFAULT_WIDTH / _background.getSize().x;
+    scale.y = (float)Game::DEFAULT_HEIGHT / _background.getSize().y;
 
     background.setTexture(_background);
     background.setScale(scale); //scale background
