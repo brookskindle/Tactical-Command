@@ -5,8 +5,11 @@ brooks.kindle@wsu.edu
 MainMenu.cpp        -       source file for MainMenu class
 */
 
+#include <iostream>
+using namespace std;
 #include <string>
 #include "MainMenu.h"
+#include "Game.h"
 #include "util.h"
 using std::string;
 
@@ -55,8 +58,9 @@ MainMenu::MenuAction MainMenu::show(sf::RenderWindow &window) {
 
     //determine how much to scale our sprites
     sf::Vector2f scale(0.0, 0.0);
-    scale.x = (float)window.getSize().x / _background.getSize().x;
-    scale.y = (float)window.getSize().y / _background.getSize().y;
+    scale.x = (float)Game::DEFAULT_WIDTH / _background.getSize().x;
+    scale.y = (float)Game::DEFAULT_HEIGHT / _background.getSize().y;
+    cout << "main menu scale:x=" << scale.x << " y=" << scale.y << endl;
 
     //now scale them!
     background.setScale(scale);
@@ -64,15 +68,23 @@ MainMenu::MenuAction MainMenu::show(sf::RenderWindow &window) {
     exitButton.setScale(scale);
 
     //move buttons to appropriate locations
-    exitButton.setPosition(window.getSize().x -
-                            exitButton.getGlobalBounds().width,
-                           window.getSize().y -
-                            exitButton.getGlobalBounds().height);
-    playButton.setPosition(exitButton.getPosition().x,
-                           exitButton.getPosition().y -
-                            playButton.getGlobalBounds().height);
+    sf::Vector2f position;
+    position.x = background.getGlobalBounds().width - exitButton.getGlobalBounds().width;
+    position.y = background.getGlobalBounds().height - exitButton.getGlobalBounds().height;
+    exitButton.setPosition(position); //move exit button
 
-    /* loop the main menu until the user chooses to do something */
+    position.x = exitButton.getPosition().x;
+    position.y = exitButton.getPosition().y - playButton.getGlobalBounds().height;
+    playButton.setPosition(position); //move play button
+//    exitButton.setPosition(background.getGlobalBounds().width -
+//                            exitButton.getGlobalBounds().width,
+//                           window.getSize().y -
+//                            exitButton.getGlobalBounds().height);
+//    playButton.setPosition(exitButton.getPosition().x,
+//                           exitButton.getPosition().y -
+//                            playButton.getGlobalBounds().height);
+//
+//    /* loop the main menu until the user chooses to do something */
     //draw the menu
     window.clear();
     window.draw(background);

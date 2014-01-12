@@ -25,6 +25,8 @@ sf::RenderWindow Game::_window;
 sf::Image Game::_icon;
 Game::GameStatus Game::_status = Game::Uninitialized;
 const string Game::GAME_NAME = "Tactical Command";
+const int Game::DEFAULT_HEIGHT = 500;
+const int Game::DEFAULT_WIDTH = 1000;
 vector<Player *> Game::players;
 
 
@@ -33,7 +35,8 @@ void Game::start() {
     if(getStatus() == Uninitialized) {
         srand(time(NULL)); //seed random values
 
-        _window.create(sf::VideoMode(1000, 500), Game::GAME_NAME);
+        _window.create(sf::VideoMode(DEFAULT_WIDTH, DEFAULT_HEIGHT),
+                       Game::GAME_NAME);
         _window.setVerticalSyncEnabled(true);
         if(_icon.loadFromFile("icon.png")) {
             _window.setIcon(256, 256, _icon.getPixelsPtr());

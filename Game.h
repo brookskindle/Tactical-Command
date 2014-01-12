@@ -17,6 +17,8 @@ Game.h      -       header file for Game class
 class Game {
     public:
         static const std::string GAME_NAME;
+        static const int DEFAULT_WIDTH;
+        static const int DEFAULT_HEIGHT;
         enum GameStatus {
             Uninitialized, Playing, Exiting, ShowingMainMenu,
             ShowingSplashScreen, ShowingScoreScreen

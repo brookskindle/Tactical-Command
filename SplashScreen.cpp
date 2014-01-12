@@ -6,6 +6,7 @@ SplashScreen.cpp    -       source file for SplashScreen class
 */
 
 #include "SplashScreen.h"
+#include "Game.h"
 using std::string;
 
 /* SplashScreen variable initialization */
@@ -30,8 +31,8 @@ SplashScreen::ExitStatus SplashScreen::show(sf::RenderWindow &window) {
 
         /* determine how much to scale the image */
         sf::Vector2f scale(0.0, 0.0);
-        scale.x = (float)window.getSize().x / texture.getSize().x;
-        scale.y = (float)window.getSize().y / texture.getSize().y;
+        scale.x = (float)Game::DEFAULT_WIDTH / texture.getSize().x;
+        scale.y = (float)Game::DEFAULT_HEIGHT / texture.getSize().y;
         sprite.setScale(scale); //scale image
 
         /* clear screen and draw splash screen image to the window */
