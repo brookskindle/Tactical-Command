@@ -187,6 +187,17 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
                         }//end if(util::clicked())
                     }//end for
                     break;
+                case sf::Event::Resized:
+                    //redraw the screen
+                    window.clear();
+                    window.draw(background);
+                    for(auto sprite : heroSprites) {
+                        window.draw(sprite);
+                    }
+                    for(auto button : otherSprites) {
+                        window.draw(button.sprite);
+                    }
+                    window.display();
                 default: //some other event, ignore it yeh?
                     break;
             }//end switch

@@ -84,6 +84,11 @@ ScoreScreen::ExitStatus ScoreScreen::show(sf::RenderWindow &window,
                     action = Continue;
                     done = true;
                     break;
+                case sf::Event::Resized:
+                    window.clear();
+                    window.draw(background);
+                    window.draw(text);
+                    window.display();
                 default:
                     break;
             }//end switch
