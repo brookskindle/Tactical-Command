@@ -49,7 +49,8 @@ SplashScreen::ExitStatus SplashScreen::show(sf::RenderWindow &window) {
                 if(e.type == sf::Event::Closed) {
                     status = Close; //user closed window
                 }
-                if(e.type == sf::Event::Resized) {
+                if(e.type == sf::Event::Resized ||
+                   e.type == sf::Event::GainedFocus) {
                     window.clear();
                     window.draw(sprite);
                     window.display();

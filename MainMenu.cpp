@@ -110,6 +110,7 @@ MainMenu::MenuAction MainMenu::show(sf::RenderWindow &window) {
                         done = true;
                     }
                     break;
+                case sf::Event::GainedFocus:
                 case sf::Event::Resized:
                     //clear and redraw the window
                     window.clear();

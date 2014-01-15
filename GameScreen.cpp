@@ -187,6 +187,7 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
                         }//end if(util::clicked())
                     }//end for
                     break;
+                case sf::Event::GainedFocus:
                 case sf::Event::Resized:
                     //redraw the screen
                     window.clear();

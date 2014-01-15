@@ -84,6 +84,7 @@ ScoreScreen::ExitStatus ScoreScreen::show(sf::RenderWindow &window,
                     action = Continue;
                     done = true;
                     break;
+                case sf::Event::GainedFocus:
                 case sf::Event::Resized:
                     window.clear();
                     window.draw(background);

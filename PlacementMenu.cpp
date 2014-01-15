@@ -36,16 +36,20 @@ PlacementMenu::MenuAction PlacementMenu::placeShips(sf::RenderWindow &window,
     //Step 0: initialize variables needed for this method
     sf::Sprite sprite;
     vector<sf::Sprite> sprites;
+    sf::Sprite background;
+    background.setTexture(_background);
 
     //Step 1: determine how much we need to scale our sprites
     sf::Vector2f scale;
     scale.x = (float)Game::DEFAULT_WIDTH / _background.getSize().x;
     scale.y = (float)Game::DEFAULT_HEIGHT / _background.getSize().y;
+    background.setScale(scale);
 
     //Step 2: create the sprites
     sf::Vector2i spriteStart;
+    sf::FloatRect rect = spriteOf(Token::HitToken).getGlobalBounds();
     spriteStart.x = 341;
-    spriteStart.y = 300;
+    spriteStart.y = 300 - rect.height * 5;
     sf::Vector2f position;
     position.x = spriteStart.x * scale.x;
     position.y = spriteStart.y * scale.y;
@@ -53,7 +57,7 @@ PlacementMenu::MenuAction PlacementMenu::placeShips(sf::RenderWindow &window,
         for(int j = 0; j < player.board().columns(); j++) {
             Coordinate c(i, j); //token coordinate
             sprite = spriteOf(player.board()[c]);
-            sprite.setScale(scale);
+            sprite.setScale(scale); //scale the sprite
             sprite.setPosition(position);
             position.x += sprite.getGlobalBounds().width;
             sprites.push_back(sprite);
@@ -62,8 +66,9 @@ PlacementMenu::MenuAction PlacementMenu::placeShips(sf::RenderWindow &window,
         position.x = spriteStart.x * scale.x;
     }//end for i
 
-    //Step 3: Draw to the window
+    //Step 3: Draw to the sprites to the window
     window.clear();
+    window.draw(background);
     for(auto s : sprites) {
         window.draw(s);
     }
@@ -79,8 +84,10 @@ PlacementMenu::MenuAction PlacementMenu::placeShips(sf::RenderWindow &window,
                     action = Close;
                     done = true;
                     break;
+                case sf::Event::GainedFocus:
                 case sf::Event::Resized: //redraw items to the menu
                     window.clear();
+                    window.draw(background);
                     for(auto s : sprites) {
                         window.draw(s);
                     }
