@@ -37,7 +37,13 @@ PlacementMenu::MenuAction PlacementMenu::placeShips(sf::RenderWindow &window,
     sf::Sprite sprite;
     vector<sf::Sprite> sprites;
     sf::Sprite background;
+    bool highlighted = false; //no sprite is highlighted yet
+    sf::Sprite primaryHighlight,
+               secondaryHighlight;
+    primaryHighlight.setTexture(_highlight);
     background.setTexture(_background);
+    primaryHighlight.setTextureRect(sf::IntRect(0,0,34,30));
+    secondaryHighlight.setTextureRect(sf::IntRect(34,0,34,30));
 
     //Step 1: determine how much we need to scale our sprites
     sf::Vector2f scale;
@@ -72,6 +78,9 @@ PlacementMenu::MenuAction PlacementMenu::placeShips(sf::RenderWindow &window,
     for(auto s : sprites) {
         window.draw(s);
     }
+    if(highlighted) {
+        window.draw(primaryHighlight);
+    }
     window.display();
 
     //Step 4: Handle window events 
@@ -84,6 +93,19 @@ PlacementMenu::MenuAction PlacementMenu::placeShips(sf::RenderWindow &window,
                     action = Close;
                     done = true;
                     break;
+                case sf::Event::MouseButtonPressed: //check for sprite click
+                    for(auto s : sprites) {
+                        if(util::clicked(s, sf::Mouse::Left, window)) {
+                            //TODO: now that a sprite has been clicked, what needs to happen?
+                            if(!highlighted) { //sprite isn't highlighted, do it
+                                highlighted = true;
+                                primaryHighlight.setPosition(s.getPosition());
+                            }
+                            else {
+                                highlighted = false;
+                            }
+                        }
+                    }//end for
                 case sf::Event::GainedFocus:
                 case sf::Event::Resized: //redraw items to the menu
                     window.clear();
@@ -91,14 +113,10 @@ PlacementMenu::MenuAction PlacementMenu::placeShips(sf::RenderWindow &window,
                     for(auto s : sprites) {
                         window.draw(s);
                     }
+                    if(highlighted) {
+                        window.draw(primaryHighlight);
+                    }
                     window.display();
-                    break;
-                case sf::Event::MouseButtonPressed: //check for sprite click
-                    for(auto s : sprites) {
-                        if(util::clicked(s, sf::Mouse::Left, window)) {
-                            //TODO: now that a sprite has been clicked, what needs to happen?
-                        }
-                    }//end for
                     break;
                 default: //some other event, but we don't care
                     break;
