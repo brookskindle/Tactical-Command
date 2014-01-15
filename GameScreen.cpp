@@ -9,6 +9,7 @@ GameScreen.cpp    -   source file for GameScreen class
 #include "Player.h"
 #include "util.h"
 #include "Game.h"
+#include "TokenButton.h"
 using std::vector;
 
 /* Constructs the game screen */
@@ -41,11 +42,6 @@ GameScreen::MenuAction GameScreen::playTurn(sf::RenderWindow &window,
     action = Continue;
 
     //Step 0: create the sprites for our game screen
-    struct TokenButton {
-        int playerId; //id of the player the token belongs to
-        sf::Sprite sprite; //drawable sprite of the token
-        Coordinate coord; //coordinate of the token on the player's board
-    };
     vector<sf::Sprite> heroSprites; //token sprites for our hero
     vector<TokenButton> otherSprites; //token buttons for the other players
 

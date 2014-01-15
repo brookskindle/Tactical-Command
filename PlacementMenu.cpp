@@ -8,6 +8,7 @@ PlacementMenu.h -   header file for PlacementMenu class
 #include "PlacementMenu.h"
 #include "util.h"
 #include "Game.h"
+#include "TokenButton.h"
 using std::vector;
 
 /* constructs the placement menu */
@@ -35,9 +36,10 @@ PlacementMenu::MenuAction PlacementMenu::placeShips(sf::RenderWindow &window,
 
     //Step 0: initialize variables needed for this method
     sf::Sprite sprite;
-    vector<sf::Sprite> sprites;
+    TokenButton token;
+    vector<TokenButton> tokens;
     sf::Sprite background;
-    bool highlighted = false; //no sprite is highlighted yet
+    bool highlighted = false; //no token is highlighted yet
     sf::Sprite primaryHighlight,
                secondaryHighlight;
     primaryHighlight.setTexture(_highlight);
@@ -45,38 +47,41 @@ PlacementMenu::MenuAction PlacementMenu::placeShips(sf::RenderWindow &window,
     primaryHighlight.setTextureRect(sf::IntRect(0,0,34,30));
     secondaryHighlight.setTextureRect(sf::IntRect(34,0,34,30));
 
-    //Step 1: determine how much we need to scale our sprites
+    //Step 1: determine how much we need to scale our menu
     sf::Vector2f scale;
     scale.x = (float)Game::DEFAULT_WIDTH / _background.getSize().x;
     scale.y = (float)Game::DEFAULT_HEIGHT / _background.getSize().y;
     background.setScale(scale);
 
-    //Step 2: create the sprites
-    sf::Vector2i spriteStart;
+    //Step 2: create the tokens
+    sf::Vector2i tokenStart;
     sf::FloatRect rect = spriteOf(Token::HitToken).getGlobalBounds();
-    spriteStart.x = 341;
-    spriteStart.y = 300 - rect.height * 5;
+    tokenStart.x = 341;
+    tokenStart.y = 300 - rect.height * 5;
     sf::Vector2f position;
-    position.x = spriteStart.x * scale.x;
-    position.y = spriteStart.y * scale.y;
+    position.x = tokenStart.x * scale.x;
+    position.y = tokenStart.y * scale.y;
     for(int i = 0; i < player.board().rows(); i++) {
         for(int j = 0; j < player.board().columns(); j++) {
             Coordinate c(i, j); //token coordinate
+            token.coord = c;
+            token.playerId = player.id();
             sprite = spriteOf(player.board()[c]);
             sprite.setScale(scale); //scale the sprite
             sprite.setPosition(position);
+            token.sprite = sprite;
             position.x += sprite.getGlobalBounds().width;
-            sprites.push_back(sprite);
+            tokens.push_back(token);
         }//end for j
         position.y += sprite.getGlobalBounds().height;
-        position.x = spriteStart.x * scale.x;
+        position.x = tokenStart.x * scale.x;
     }//end for i
 
     //Step 3: Draw to the sprites to the window
     window.clear();
     window.draw(background);
-    for(auto s : sprites) {
-        window.draw(s);
+    for(auto s : tokens) {
+        window.draw(s.sprite);
     }
     if(highlighted) {
         window.draw(primaryHighlight);
@@ -94,12 +99,12 @@ PlacementMenu::MenuAction PlacementMenu::placeShips(sf::RenderWindow &window,
                     done = true;
                     break;
                 case sf::Event::MouseButtonPressed: //check for sprite click
-                    for(auto s : sprites) {
-                        if(util::clicked(s, sf::Mouse::Left, window)) {
-                            //TODO: now that a sprite has been clicked, what needs to happen?
-                            if(!highlighted) { //sprite isn't highlighted, do it
+                    for(auto s : tokens) {
+                        if(util::clicked(s.sprite, sf::Mouse::Left, window)) {
+                            //TODO: now that a token has been clicked, what needs to happen?
+                            if(!highlighted) { //token isn't highlighted, do it
                                 highlighted = true;
-                                primaryHighlight.setPosition(s.getPosition());
+                                primaryHighlight.setPosition(s.sprite.getPosition());
                             }
                             else {
                                 highlighted = false;
@@ -110,8 +115,8 @@ PlacementMenu::MenuAction PlacementMenu::placeShips(sf::RenderWindow &window,
                 case sf::Event::Resized: //redraw items to the menu
                     window.clear();
                     window.draw(background);
-                    for(auto s : sprites) {
-                        window.draw(s);
+                    for(auto s : tokens) {
+                        window.draw(s.sprite);
                     }
                     if(highlighted) {
                         window.draw(primaryHighlight);
