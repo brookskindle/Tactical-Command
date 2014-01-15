@@ -120,13 +120,13 @@ void Game::showMainMenu() {
     /* Determine what to do based on what the user entered in the main menu */
     switch(menu.show(getWindow())) {
         case MainMenu::Play: //play game
+            setStatus(Playing);
             p = new HumanPlayer();
             p->placeShips();
             players.push_back(p);
             p = new ComputerPlayer();
             p->placeShips();
             players.push_back(p);
-            setStatus(Playing);
             break;
         case MainMenu::Failure: //unable to load main menu
         case MainMenu::Exit: //exit game

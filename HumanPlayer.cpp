@@ -9,6 +9,7 @@ HumanPlayer.cpp -   contains HumanPlayer (class) source code
 #include "HumanPlayer.h"
 #include "Game.h"
 #include "util.h"
+#include "PlacementMenu.h"
 using std::vector;
 
 /* Constructs the human player */
@@ -23,7 +24,14 @@ HumanPlayer::~HumanPlayer() {
 
 /* Places ship tokens on the player's board */
 void HumanPlayer::placeShips() {
-    util::placeAllShipsRandomly(this->getBoard());
+    PlacementMenu menu;
+    switch(menu.placeShips(Game::getWindow(), *this)) {
+        case PlacementMenu::Failure:
+        case PlacementMenu::Close:
+            Game::setStatus(Game::Exiting);
+        case PlacementMenu::Continue:
+            break;
+    }//end switch
 }//end placeShips
 
 

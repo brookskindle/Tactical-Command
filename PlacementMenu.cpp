@@ -6,6 +6,7 @@ PlacementMenu.h -   header file for PlacementMenu class
 */
 
 #include "PlacementMenu.h"
+#include "util.h"
 #include "Game.h"
 using std::vector;
 
@@ -55,6 +56,7 @@ PlacementMenu::MenuAction PlacementMenu::placeShips(sf::RenderWindow &window,
             sprite.setScale(scale);
             sprite.setPosition(position);
             position.x += sprite.getGlobalBounds().width;
+            sprites.push_back(sprite);
         }//end for j
         position.y += sprite.getGlobalBounds().height;
         position.x = spriteStart.x * scale.x;
@@ -85,6 +87,11 @@ PlacementMenu::MenuAction PlacementMenu::placeShips(sf::RenderWindow &window,
                     window.display();
                     break;
                 case sf::Event::MouseButtonPressed: //check for sprite click
+                    for(auto s : sprites) {
+                        if(util::clicked(s, sf::Mouse::Left, window)) {
+                            //TODO: now that a sprite has been clicked, what needs to happen?
+                        }
+                    }//end for
                     break;
                 default: //some other event, but we don't care
                     break;
