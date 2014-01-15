@@ -21,6 +21,8 @@ class PlacementMenu {
         bool loaded() const;
         MenuAction placeShips(sf::RenderWindow &window, Player &player);
     private:
+        sf::Sprite spriteOf(Token ship) const;
+
         bool _loaded;
         sf::Texture _background;
         sf::Texture _tokens;
