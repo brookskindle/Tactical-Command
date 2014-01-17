@@ -8,7 +8,6 @@ PlacementMenu.h -   header file for PlacementMenu class
 #include "PlacementMenu.h"
 #include "util.h"
 #include "Game.h"
-#include "TokenButton.h"
 using std::vector;
 
 /* constructs the placement menu */
@@ -40,12 +39,14 @@ PlacementMenu::MenuAction PlacementMenu::placeShips(sf::RenderWindow &window,
     vector<TokenButton> tokens;
     sf::Sprite background;
     bool highlighted = false; //no token is highlighted yet
-    sf::Sprite primaryHighlight,
-               secondaryHighlight;
+    sf::Sprite primaryHighlight;
+    sf::IntRect primaryHighlightRect(0,0,34,30),
+                  secondaryHighlightRect(34,0,34,30);
+    vector<TokenButton> secondaryHighlights;
     primaryHighlight.setTexture(_highlight);
     background.setTexture(_background);
-    primaryHighlight.setTextureRect(sf::IntRect(0,0,34,30));
-    secondaryHighlight.setTextureRect(sf::IntRect(34,0,34,30));
+    primaryHighlight.setTextureRect(primaryHighlightRect);
+    Board &board = player.getBoard();
 
     //Step 1: determine how much we need to scale our menu
     sf::Vector2f scale;
@@ -101,14 +102,86 @@ PlacementMenu::MenuAction PlacementMenu::placeShips(sf::RenderWindow &window,
                 case sf::Event::MouseButtonPressed: //check for sprite click
                     for(auto s : tokens) {
                         if(util::clicked(s.sprite, sf::Mouse::Left, window)) {
-                            //TODO: now that a token has been clicked, what needs to happen?
-                            if(!highlighted) { //token isn't highlighted, do it
-                                highlighted = true;
-                                primaryHighlight.setPosition(s.sprite.getPosition());
-                            }
-                            else {
+                            if(highlighted) {  //a token already highlighted
                                 highlighted = false;
-                            }
+                                //check to see if a secondary highlighted
+                                //button is clicked
+                                //if so, place the ship
+                                for(auto t : secondaryHighlights) {
+                                    sf::Sprite spr = t.sprite;
+                                    if(util::clicked(spr, sf::Mouse::Left, window)) {
+                                        //determine the direction to place ship
+                                        Direction d = Direction::North;
+                                        if(s.coord.col == t.coord.col) { //columns the same
+                                            if(s.coord.row < t.coord.row) { //place ship south
+                                                d = South;
+                                            }
+                                            else { //place ship north
+                                                d = North;
+                                            }
+                                        }//end if
+                                        else { //rows the same
+                                            if(s.coord.col < t.coord.col) { //place ship east
+                                                d = East;
+                                            }
+                                            else { //place ship west
+                                                d = West;
+                                            }
+                                        }
+                                        player.getBoard().place(Token::DestroyerToken,
+                                            s.coord, d, 5);
+                                    }//end if
+                                }//end for(auto t...)
+                                secondaryHighlights.clear();
+                            }//end if
+                            else { //no tokens highlighted
+                                //highlight the clicked token
+                                highlighted = true; 
+                                primaryHighlight.setPosition(s.sprite.getPosition());
+                                //figure out which sprites to highlight as secondary highlights
+                                Coordinate c = s.coord; //location of the primary highlighted area
+                                Coordinate newCoord = s.coord;
+                                TokenButton token;
+                                token.playerId = player.id();
+                                token.sprite.setTexture(_highlight);
+                                token.sprite.setTextureRect(secondaryHighlightRect);
+                                if(board.contains(Token::SpaceToken, c, North, 5-1)) {
+                                    newCoord = s.coord;
+                                    newCoord.row -= 4;
+                                    token.coord = newCoord;
+                                    auto newPos = s.sprite.getPosition();
+                                    newPos.y -= spriteOf(Token::SpaceToken).getGlobalBounds().height * 4 - spriteOf(Token::SpaceToken).getGlobalBounds().height / 2;
+                                    token.sprite.setPosition(newPos);
+                                    secondaryHighlights.push_back(token);
+                                }
+                                if(board.contains(Token::SpaceToken, c, South, 5-1)) {
+                                    newCoord = s.coord;
+                                    newCoord.row += 4;
+                                    token.coord = newCoord;
+                                    auto newPos = s.sprite.getPosition();
+                                    newPos.y += spriteOf(Token::SpaceToken).getGlobalBounds().height * 4 + spriteOf(Token::SpaceToken).getGlobalBounds().height / 2;
+                                    token.sprite.setPosition(newPos);
+                                    secondaryHighlights.push_back(token);
+                                }
+                                if(board.contains(Token::SpaceToken, c, East, 5-1)) {
+                                    newCoord = s.coord;
+                                    newCoord.col += 4;
+                                    token.coord = newCoord;
+                                    auto newPos = s.sprite.getPosition();
+                                    newPos.x += spriteOf(Token::SpaceToken).getGlobalBounds().width * 4 + spriteOf(Token::SpaceToken).getGlobalBounds().width / 2;
+                                    token.sprite.setPosition(newPos);
+                                    secondaryHighlights.push_back(token);
+                                }
+                                if(board.contains(Token::SpaceToken, c, West, 5-1)) {
+                                    newCoord = s.coord;
+                                    newCoord.col -= 4;
+                                    token.coord = newCoord;
+                                    auto newPos = s.sprite.getPosition();
+                                    newPos.x -= spriteOf(Token::SpaceToken).getGlobalBounds().width * 4 - spriteOf(Token::SpaceToken).getGlobalBounds().width / 2;
+                                    token.sprite.setPosition(newPos);
+                                    secondaryHighlights.push_back(token);
+                                }
+                            }//end else
                         }
                     }//end for
                 case sf::Event::GainedFocus:
@@ -120,6 +193,9 @@ PlacementMenu::MenuAction PlacementMenu::placeShips(sf::RenderWindow &window,
                     }
                     if(highlighted) {
                         window.draw(primaryHighlight);
+                        for(auto s : secondaryHighlights) {
+                            window.draw(s.sprite);
+                        }
                     }
                     window.display();
                     break;
@@ -166,3 +242,56 @@ sf::Sprite PlacementMenu::spriteOf(Token ship) const {
 
     return sprite;
 }//end spriteOf
+
+
+/* Creates all the sprites needed for the placement menu. This will
+delete any existing sprites the menu was using. */
+void PlacementMenu::initialize(Player &player) {
+    const Board &board = player.board();
+    tokens.clear(); //remove any previously used tokens
+    
+    sf::Vector2f scale; //determine how much to scale everything
+    scale.x = (float)Game::DEFAULT_WIDTH / _background.getSize().x;
+    scale.y = (float)Game::DEFAULT_HEIGHT / _background.getSize().y;
+    background.setScale(scale);
+
+    sf::Vector2i spriteStart; //start position for the sprite
+    spriteStart.x = 341;
+    spriteStart.y = 300;
+    sf::Vector2f position; //position of the current sprite
+    position.x = spriteStart.x * scale.x;
+    position.y = spriteStart.y * scale.y;
+
+    //create a TokenButton for each token on the player's board
+    for(int i = 0; i < board.rows(); i++) {
+        TokenButton button;
+        sf::Sprite sprite;
+        for(int j = 0; j < board.columns(); j++) {
+            Coordinate c(i, j); //token coordinate
+            button.coord = c;
+            button.playerId = player.id();
+            sprite = spriteOf(player.board()[c]);
+            sprite.setScale(scale); //scale the sprite
+            sprite.setPosition(position);
+            button.sprite = sprite;
+            position.x += sprite.getGlobalBounds().width;
+            tokens.push_back(button);
+        }//end for j
+        position.y += sprite.getGlobalBounds().height;
+        position.x = spriteStart.x * scale.x;
+    }//end for i
+}//end generateSprites
+
+
+/* Draws the placement menu to the screen. Does not clear or display the
+window */
+void PlacementMenu::draw(sf::RenderWindow &window) {
+    for(auto tok : tokens) {
+        window.draw(tok.sprite);
+    }
+}//end draw
+
+
+/* Handles mouse clicks within the placement menu */
+void PlacementMenu::handleClick(sf::RenderWindow &window) {
+}//end handleClick

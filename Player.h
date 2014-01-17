@@ -29,7 +29,6 @@ class Player {
         virtual void playTurn(const std::vector<Player *> &) const = 0;
         bool dead() const;
         ShotType shoot(Coordinate loc, Player &targ) const;
-    protected:
         Board &getBoard();
     private:
         const int _id;
