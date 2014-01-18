@@ -14,6 +14,7 @@ struct Coordinate {
     unsigned int col;
     Coordinate(unsigned int row, unsigned int col):row(row), col(col) {}
     Coordinate() :row(0), col(0) {}
+    bool operator==(Coordinate &o) { return col == o.col && row == o.row; }
 };//end Coordinate
 
 #endif

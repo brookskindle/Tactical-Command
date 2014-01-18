@@ -41,6 +41,7 @@ class PlacementMenu {
         bool _loaded;
         int _nShipsPlaced;
         bool _highlighted;
+        Token _currentShip;
         sf::Texture _background;
         sf::Texture _tokens;
         sf::Texture _highlight;

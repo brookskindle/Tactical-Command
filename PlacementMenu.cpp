@@ -11,7 +11,8 @@ PlacementMenu.h -   header file for PlacementMenu class
 using std::vector;
 
 /* constructs the placement menu */
-PlacementMenu::PlacementMenu() :_nShipsPlaced(0), _highlighted(false) {
+PlacementMenu::PlacementMenu() :_nShipsPlaced(0), _highlighted(false),
+_currentShip(DestroyerToken) {
     _loaded = _background.loadFromFile("ShipPlacement.png") &&
               _tokens.loadFromFile("TokenSheet.png") &&
               _highlight.loadFromFile("TokenSelection.png");
@@ -192,16 +193,23 @@ void PlacementMenu::handleClick(sf::RenderWindow &window, Player &player) {
                     if(_highlighted) { //change highlighted token
                         highlightAll(None);
                         button.highlightType = Primary;
-                        //TODO: now what? calculate secondary highlight buttons
+                        this->highlight(_currentShip);
                     }
-                    else {
+                    else { //highlight token
                         _highlighted = true;
                         button.highlightType = Primary;
+                        this->highlight(_currentShip);
                     }
                     break;
-                case HighlightType::Primary:
+                case HighlightType::Primary: //unhighlight the token
+                    _highlighted = false;
+                    highlightAll(None);
+                    highlights.clear();
                     break;
-                case HighlightType::Secondary:
+                case HighlightType::Secondary: //place the ship!
+                    //make the button primary so we can place the ship
+                    button.highlightType = Primary;
+                    //TODO: actually place the ship
                     break;
             }//end switch
         }//end if
@@ -212,6 +220,18 @@ void PlacementMenu::handleClick(sf::RenderWindow &window, Player &player) {
 /* Clears and re-highlights all highlighted sprites */
 void PlacementMenu::highlight(Token ship) {
     highlights.clear();
+    sf::IntRect primaryHighlight,
+                secondaryHighlight;
+    primaryHighlight.top = 0;
+    primaryHighlight.left = 0;
+    primaryHighlight.width = 34;
+    primaryHighlight.height = 30;
+
+    secondaryHighlight.top = 0;
+    secondaryHighlight.left = 34;
+    secondaryHighlight.width = 34;
+    secondaryHighlight.height = 30;
+
     int offset = 0;
     switch(ship) {
         case DestroyerToken:
@@ -233,7 +253,35 @@ void PlacementMenu::highlight(Token ship) {
     for(auto hl : tokens) {
         if(hl.highlightType == Primary) {
             coord = hl.button.coord;
+            sf::Sprite sprite;
+            sprite.setTexture(_highlight);
+            sprite.setTextureRect(primaryHighlight);
+            sprite.setPosition(hl.button.sprite.getPosition());
+            highlights.push_back(sprite);
             break;
+        }
+    }//end for
+
+    Coordinate cNorth(coord),
+               cSouth(coord),
+               cEast(coord),
+               cWest(coord);
+    cNorth.row -= offset;
+    cSouth.row += offset;
+    cEast.col += offset;
+    cWest.col -= offset;
+
+    //find secondary highlighted tokens
+    for(auto hl : tokens) {
+        if(hl.button.coord == cNorth ||
+           hl.button.coord == cSouth ||
+           hl.button.coord == cEast  ||
+           hl.button.coord == cWest) {
+            sf::Sprite sprite;
+            sprite.setTexture(_highlight);
+            sprite.setTextureRect(secondaryHighlight);
+            sprite.setPosition(hl.button.sprite.getPosition());
+            highlights.push_back(sprite);
         }
     }//end for
 }//end highlightSecondary
