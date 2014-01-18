@@ -4,6 +4,8 @@ brooks.kindle@wsu.edu
 
 PlacementMenu.h -   header file for PlacementMenu class
 */
+#include <iostream>
+using namespace std;
 
 #include "PlacementMenu.h"
 #include "util.h"
@@ -40,7 +42,7 @@ PlacementMenu::MenuAction PlacementMenu::placeShips(sf::RenderWindow &window,
     draw(window);
     window.display();
 
-    bool done = false;
+    bool sdone = false;
     do {
         sf::Event e;
         while(window.pollEvent(e)) {
@@ -48,24 +50,28 @@ PlacementMenu::MenuAction PlacementMenu::placeShips(sf::RenderWindow &window,
             /* Determine what to do for each window event */
             switch(e.type) {
                 case sf::Event::Closed:
+                    cout << "window closed" << endl;
                     action = Close;
-                    done = true;
+                    sdone = true;
                     break;
+                case sf::Event::MouseButtonPressed:
+                    cout << "mouse pressed" << endl;
+                    if(handleClick(window, player)) {
+                        initialize(player);
+                    }
                 case sf::Event::GainedFocus:
                 case sf::Event::Resized:
+                    cout << "drawing window" << endl;
                     window.clear();
                     draw(window);
                     window.display();
-                    break;
-                case sf::Event::MouseButtonPressed:
-                    handleClick(window, player);
                     break;
                 default:
                     break;
             }//end switch
 
         }//end while(window.pollEvent(e))
-    }while(!done);
+    }while(!done() && !sdone);
 
     return action;
 }//end placeShips
@@ -164,7 +170,7 @@ void PlacementMenu::initialize(Player &player) {
         position.y += sprite.getGlobalBounds().height;
         position.x = spriteStart.x * scale.x;
     }//end for i
-}//end generateSprites
+}//end initialize
 
 
 /* Draws the placement menu to the screen. Does not clear or display the
@@ -175,21 +181,29 @@ void PlacementMenu::draw(sf::RenderWindow &window) {
         for(auto btn : tokens) {
             window.draw(btn.button.sprite);
         }
+        for(auto highlight : highlights) {
+            window.draw(highlight);
+        }
     }
 }//end draw
 
 
-/* Handles mouse clicks within the placement menu */
-void PlacementMenu::handleClick(sf::RenderWindow &window, Player &player) {
+/* Handles mouse clicks within the placement menu, and returns
+true if the click was on a token */
+bool PlacementMenu::handleClick(sf::RenderWindow &window, Player &player) {
+    bool clickOnToken = false;
     if(!loaded()) {
-        return;
+        return clickOnToken;
     }
 
+    cout << "Number of tokens: " << tokens.size() << endl;
     //Determine which, if any, token has been clicked
-    for(auto button : tokens) {
+    for(auto itr = tokens.begin(); itr != tokens.end(); itr++) {
+        HighlightButton &button = *itr;
         if(util::clicked(button.button.sprite, sf::Mouse::Left, window)) {
             switch(button.highlightType) {
                 case HighlightType::None:
+                    cout << "non-highlighted button pressed" << endl;
                     if(_highlighted) { //change highlighted token
                         highlightAll(None);
                         button.highlightType = Primary;
@@ -197,23 +211,54 @@ void PlacementMenu::handleClick(sf::RenderWindow &window, Player &player) {
                     }
                     else { //highlight token
                         _highlighted = true;
+                        highlightAll(None);
                         button.highlightType = Primary;
                         this->highlight(_currentShip);
                     }
                     break;
                 case HighlightType::Primary: //unhighlight the token
+                    cout << "primary button pressed" << endl;
                     _highlighted = false;
                     highlightAll(None);
                     highlights.clear();
                     break;
                 case HighlightType::Secondary: //place the ship!
+                    clickOnToken = true;
+                    cout << "secondary button pressed" << endl;
                     //make the button primary so we can place the ship
                     button.highlightType = Primary;
-                    //TODO: actually place the ship
+                    placeShip(player);
+                    highlightAll(None);
+                    highlights.clear();
+                    _highlighted = false;
+                    switch(_currentShip) {
+                        case DestroyerToken:
+                            _currentShip = FrigateToken;
+                            _nShipsPlaced++;
+                            break;
+                        case FrigateToken:
+                            _currentShip = CrusaderToken;
+                            _nShipsPlaced++;
+                            break;
+                        case CrusaderToken:
+                            _currentShip = ValkyrieToken;
+                            _nShipsPlaced++;
+                            break;
+                        case ValkyrieToken:
+                            _currentShip = InterceptorToken;
+                            _nShipsPlaced++;
+                            break;
+                        case InterceptorToken:
+                            _nShipsPlaced++;
+                        default:
+                            break;
+                    }//end switch
                     break;
             }//end switch
         }//end if
     }//end for
+    HighlightButton button = tokens[0];
+    return clickOnToken;
 }//end handleClick
 
 
@@ -239,7 +284,6 @@ void PlacementMenu::highlight(Token ship) {
         case FrigateToken:
             offset++;
         case CrusaderToken:
-            offset++;
         case ValkyrieToken:
             offset++;
         case InterceptorToken:
@@ -285,3 +329,56 @@ void PlacementMenu::highlight(Token ship) {
         }
     }//end for
 }//end highlightSecondary
+
+
+/* Places the current ship between the two locations
+that are primary highlighted */
+void PlacementMenu::placeShip(Player &player) {
+    bool firstFound = false,
+         secondFound = false;
+    Coordinate first,
+               second;
+    for(auto token : tokens) {
+        if(token.highlightType == Primary) {
+            if(!firstFound) {
+                firstFound = true;
+                first = token.button.coord;
+            }
+            else if(!secondFound) {
+                secondFound = true;
+                second = token.button.coord;
+            }
+        }
+        if(secondFound) {
+            break;
+        }
+
+        //now that we've found both primary coordinates,
+        //let's place our ships between them
+        Direction d(North);
+        if(first.col < second.col) { //go east
+            d = East;
+        }
+        else if(first.row < second.row) { //go south
+            d = South;
+        }
+        
+        int shipLen = 0;
+        switch(_currentShip) {
+            case DestroyerToken:
+                shipLen++;
+            case FrigateToken:
+                shipLen++;
+            case CrusaderToken:
+            case ValkyrieToken:
+                shipLen++;
+            case InterceptorToken:
+                shipLen += 2;
+            default:
+                break;
+        }
+
+        //place the ship
+        player.getBoard().place(_currentShip, first, d, shipLen);
+    }//end for
+}//end placeShip
