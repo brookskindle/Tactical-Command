@@ -22,16 +22,30 @@ class PlacementMenu {
         bool loaded() const;
         MenuAction placeShips(sf::RenderWindow &window, Player &player);
     private:
+        enum HighlightType {
+            None, Secondary, Primary
+        };
+        struct HighlightButton {
+            TokenButton button;
+            HighlightType highlightType;
+        };
+
         sf::Sprite spriteOf(Token ship) const;
+        bool done() const;
+        void highlightAll(HighlightType type);
         void initialize(Player &player);
         void draw(sf::RenderWindow &window);
-        void handleClick(sf::RenderWindow &window);
+        void handleClick(sf::RenderWindow &window, Player &player);
+        void highlight(Token ship);
 
         bool _loaded;
+        int _nShipsPlaced;
+        bool _highlighted;
         sf::Texture _background;
         sf::Texture _tokens;
         sf::Texture _highlight;
-        std::vector<TokenButton> tokens;
+        std::vector<HighlightButton> tokens;
+        std::vector<sf::Sprite> highlights;
         sf::Sprite background;
 };//end PlacementMenu
 
