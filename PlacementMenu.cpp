@@ -121,7 +121,8 @@ bool PlacementMenu::done() const {
 
 /* Highlights all tokens with the given highlight type */
 void PlacementMenu::highlightAll(HighlightType type) {
-    for(auto b : tokens) {
+    for(auto itr = tokens.begin(); itr != tokens.end(); itr++) {
+        HighlightButton &b = *itr;
         b.highlightType = type;
     }
 }//end highlightAll
@@ -189,11 +190,11 @@ void PlacementMenu::draw(sf::RenderWindow &window) {
 
 
 /* Handles mouse clicks within the placement menu, and returns
-true if the click was on a token */
+true if the click placed a ship */
 bool PlacementMenu::handleClick(sf::RenderWindow &window, Player &player) {
-    bool clickOnToken = false;
+    bool clickPlacedToken = false;
     if(!loaded()) {
-        return clickOnToken;
+        return clickPlacedToken;
     }
 
     cout << "Number of tokens: " << tokens.size() << endl;
@@ -206,12 +207,14 @@ bool PlacementMenu::handleClick(sf::RenderWindow &window, Player &player) {
                     cout << "non-highlighted button pressed" << endl;
                     if(_highlighted) { //change highlighted token
                         highlightAll(None);
+                        highlights.clear();
                         button.highlightType = Primary;
                         this->highlight(_currentShip);
                     }
                     else { //highlight token
                         _highlighted = true;
                         highlightAll(None);
+                        highlights.clear();
                         button.highlightType = Primary;
                         this->highlight(_currentShip);
                     }
@@ -221,9 +224,10 @@ bool PlacementMenu::handleClick(sf::RenderWindow &window, Player &player) {
                     _highlighted = false;
                     highlightAll(None);
                     highlights.clear();
+                    button.highlightType = None;
                     break;
                 case HighlightType::Secondary: //place the ship!
-                    clickOnToken = true;
+                    clickPlacedToken = true;
                     cout << "secondary button pressed" << endl;
                     //make the button primary so we can place the ship
                     button.highlightType = Primary;
@@ -257,8 +261,7 @@ bool PlacementMenu::handleClick(sf::RenderWindow &window, Player &player) {
             }//end switch
         }//end if
     }//end for
-    HighlightButton button = tokens[0];
-    return clickOnToken;
+    return clickPlacedToken;
 }//end handleClick
 
 
@@ -287,7 +290,7 @@ void PlacementMenu::highlight(Token ship) {
         case ValkyrieToken:
             offset++;
         case InterceptorToken:
-            offset += 2;
+            offset += 1;
         default:
             break;
     }//end switch
