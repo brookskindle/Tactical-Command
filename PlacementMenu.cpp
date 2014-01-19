@@ -319,7 +319,8 @@ void PlacementMenu::highlight(Token ship) {
     cWest.col -= offset;
 
     //find secondary highlighted tokens
-    for(auto hl : tokens) {
+    for(auto itr = tokens.begin(); itr != tokens.end(); itr++) {
+        auto &hl = *itr;
         if(hl.button.coord == cNorth ||
            hl.button.coord == cSouth ||
            hl.button.coord == cEast  ||
@@ -328,6 +329,7 @@ void PlacementMenu::highlight(Token ship) {
             sprite.setTexture(_highlight);
             sprite.setTextureRect(secondaryHighlight);
             sprite.setPosition(hl.button.sprite.getPosition());
+            hl.highlightType = Secondary;
             highlights.push_back(sprite);
         }
     }//end for
@@ -355,6 +357,7 @@ void PlacementMenu::placeShip(Player &player) {
         if(secondFound) {
             break;
         }
+    }//end for
 
         //now that we've found both primary coordinates,
         //let's place our ships between them
@@ -362,8 +365,14 @@ void PlacementMenu::placeShip(Player &player) {
         if(first.col < second.col) { //go east
             d = East;
         }
+        else if(first.col > second.col) { //go west
+            d = West;
+        }
         else if(first.row < second.row) { //go south
             d = South;
+        }
+        else { //do north
+            d = North;
         }
         
         int shipLen = 0;
@@ -383,5 +392,4 @@ void PlacementMenu::placeShip(Player &player) {
 
         //place the ship
         player.getBoard().place(_currentShip, first, d, shipLen);
-    }//end for
 }//end placeShip
