@@ -10,6 +10,7 @@ util.cpp    -   source file for util namespace
 #include <algorithm>
 #include "util.h"
 using std::cout;
+using std::vector;
 using std::cin;
 using std::endl;
 
@@ -113,3 +114,40 @@ bool util::placeAllShipsRandomly(Board &board) {
     util::placeRandom(board, Token::InterceptorToken);
     return true;
 }//end placeAllShipsRandomly
+
+
+/* Returns a vector of coordinates starting from the given coordinate
+and going in a direction for a certain length. For example, if the coordinate
+was (0,0), the direction South, and the length 3, then the vector
+would contain the coordinates (0,0), (1,0), (2,0) */
+vector<Coordinate> util::generateCoordinates(Coordinate c, Direction d,
+                                              unsigned int len) {
+    vector<Coordinate> coords;
+
+    /* Step 1: Determine the row and column offset 
+    for each successive coordinate we generate */
+    int rowOffset = 0, //row offset for the direction we're going
+        colOffset = 0; //column offset
+
+    if(d & North) { //direction is north
+        rowOffset -= 1;
+    }
+    if(d & South) { //direction is south
+        rowOffset += 1;
+    }
+    if(d & East) { //direction is east
+        colOffset += 1;
+    }
+    if(d & West) { //direction is west
+        colOffset -= 1;
+    }
+
+    /* Step 2: Generate each coordinate and push it to our result vector */
+    for(int i = 0; i < len; i++) {
+        coords.push_back(c);
+        c.row += rowOffset;
+        c.col += colOffset;
+    }//end for
+
+    return coords;
+}//end generateCoordinates

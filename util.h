@@ -20,6 +20,8 @@ namespace util {
                  const sf::RenderWindow &relativeTo);
     bool placeRandom(Board &board, Token ship);
     bool placeAllShipsRandomly(Board &board);
+    std::vector<Coordinate> generateCoordinates(Coordinate c, Direction d, 
+                                                unsigned int len);
 };//end util
 
 #endif

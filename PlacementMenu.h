@@ -36,7 +36,7 @@ class PlacementMenu {
         void initialize(Player &player);
         void draw(sf::RenderWindow &window);
         bool handleClick(sf::RenderWindow &window, Player &player);
-        void highlight(Token ship);
+        void highlight(Token ship, Player &player);
         void placeShip(Player &player);
 
         bool _loaded;

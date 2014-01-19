@@ -204,7 +204,7 @@ bool PlacementMenu::handleClick(sf::RenderWindow &window, Player &player) {
                         highlightAll(None);
                         highlights.clear();
                         button.highlightType = Primary;
-                        this->highlight(_currentShip);
+                        this->highlight(_currentShip, player);
                     }
                     break;
                 case HighlightType::Primary: //unhighlight the token
@@ -252,7 +252,7 @@ bool PlacementMenu::handleClick(sf::RenderWindow &window, Player &player) {
 
 
 /* Clears and re-highlights all highlighted sprites */
-void PlacementMenu::highlight(Token ship) {
+void PlacementMenu::highlight(Token ship, Player &player) {
     highlights.clear();
     sf::IntRect primaryHighlight,
                 secondaryHighlight;
@@ -307,10 +307,12 @@ void PlacementMenu::highlight(Token ship) {
     //find secondary highlighted tokens
     for(auto itr = tokens.begin(); itr != tokens.end(); itr++) {
         auto &hl = *itr;
-        if(hl.button.coord == cNorth ||
+        //ensure the secondary token is a space token
+        if((hl.button.coord == cNorth ||
            hl.button.coord == cSouth ||
            hl.button.coord == cEast  ||
-           hl.button.coord == cWest) {
+           hl.button.coord == cWest) &&
+           player.board()[hl.button.coord] == SpaceToken) {
             sf::Sprite sprite;
             sprite.setTexture(_highlight);
             sprite.setTextureRect(secondaryHighlight);
@@ -319,7 +321,7 @@ void PlacementMenu::highlight(Token ship) {
             highlights.push_back(sprite);
         }
     }//end for
-}//end highlightSecondary
+}//end highlight
 
 
 /* Places the current ship between the two locations

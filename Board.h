@@ -42,8 +42,6 @@ class Board {
         void initialize(unsigned int rows, unsigned int columns);
         void uninitialize();
         void copy(Token **const board, unsigned int nRows, unsigned int nCols);
-        std::vector<Coordinate> generateCoordinates(Coordinate c, Direction d, 
-                                                    unsigned int len) const;
 
 };//end Board
 

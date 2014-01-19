@@ -6,6 +6,7 @@ Board.cpp   -   source file for Board class
 */
 
 #include "Board.h"
+#include "util.h"
 using std::vector;
 
 /* constructs the board with the given size */
@@ -83,7 +84,7 @@ bool Board::valid(Coordinate c) const {
 
 /* Returns true if the given coordinates are within the boundaries of the board */
 bool Board::valid(Coordinate c, Direction d, unsigned int len) const {
-    auto coords = generateCoordinates(c, d, len);
+    auto coords = util::generateCoordinates(c, d, len);
     for(Coordinate c : coords) {
         if(!valid(c)) {
             return false;
@@ -103,7 +104,7 @@ bool Board::contains(Token t, Coordinate c) const {
 /* Returns true if the given coordinates are valid and
 occupied by the given token */
 bool Board::contains(Token t, Coordinate c, Direction d, unsigned int len) const {
-    for(Coordinate coord : generateCoordinates(c, d, len)) {
+    for(Coordinate coord : util::generateCoordinates(c, d, len)) {
         if(!contains(t, coord)) {
             return false;
         }
@@ -133,7 +134,7 @@ the tokens was successful, returns false otherwise */
 bool Board::place(Token t, Coordinate c, Direction d, unsigned int len) {
     bool placed = false;
     if(contains(Token::SpaceToken, c, d, len)) {
-        for(auto coord : generateCoordinates(c, d, len)) {
+        for(auto coord : util::generateCoordinates(c, d, len)) {
             place(t, coord);
         }
         placed = true;
@@ -194,40 +195,3 @@ void Board::copy(Token **const board, unsigned int nRows, unsigned int nCols) {
 
     }//end if
 }//end copy
-
-
-/* Returns a vector of coordinates starting from the given coordinate
-and going in a direction for a certain length. For example, if the coordinate
-was (0,0), the direction South, and the length 3, then the vector
-would contain the coordinates (0,0), (1,0), (2,0) */
-vector<Coordinate> Board::generateCoordinates(Coordinate c, Direction d,
-                                              unsigned int len) const {
-    vector<Coordinate> coords;
-
-    /* Step 1: Determine the row and column offset 
-    for each successive coordinate we generate */
-    int rowOffset = 0, //row offset for the direction we're going
-        colOffset = 0; //column offset
-
-    if(d & North) { //direction is north
-        rowOffset -= 1;
-    }
-    if(d & South) { //direction is south
-        rowOffset += 1;
-    }
-    if(d & East) { //direction is east
-        colOffset += 1;
-    }
-    if(d & West) { //direction is west
-        colOffset -= 1;
-    }
-
-    /* Step 2: Generate each coordinate and push it to our result vector */
-    for(int i = 0; i < len; i++) {
-        coords.push_back(c);
-        c.row += rowOffset;
-        c.col += colOffset;
-    }//end for
-
-    return coords;
-}//end generateCoordinates
