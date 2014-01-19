@@ -4,8 +4,6 @@ brooks.kindle@wsu.edu
 
 PlacementMenu.h -   header file for PlacementMenu class
 */
-#include <iostream>
-using namespace std;
 
 #include "PlacementMenu.h"
 #include "util.h"
@@ -50,18 +48,15 @@ PlacementMenu::MenuAction PlacementMenu::placeShips(sf::RenderWindow &window,
             /* Determine what to do for each window event */
             switch(e.type) {
                 case sf::Event::Closed:
-                    cout << "window closed" << endl;
                     action = Close;
                     sdone = true;
                     break;
                 case sf::Event::MouseButtonPressed:
-                    cout << "mouse pressed" << endl;
                     if(handleClick(window, player)) {
                         initialize(player);
                     }
                 case sf::Event::GainedFocus:
                 case sf::Event::Resized:
-                    cout << "drawing window" << endl;
                     window.clear();
                     draw(window);
                     window.display();
@@ -197,21 +192,14 @@ bool PlacementMenu::handleClick(sf::RenderWindow &window, Player &player) {
         return clickPlacedToken;
     }
 
-    cout << "Number of tokens: " << tokens.size() << endl;
     //Determine which, if any, token has been clicked
     for(auto itr = tokens.begin(); itr != tokens.end(); itr++) {
         HighlightButton &button = *itr;
         if(util::clicked(button.button.sprite, sf::Mouse::Left, window)) {
             switch(button.highlightType) {
                 case HighlightType::None:
-                    cout << "non-highlighted button pressed" << endl;
-                    if(_highlighted) { //change highlighted token
-                        highlightAll(None);
-                        highlights.clear();
-                        button.highlightType = Primary;
-                        this->highlight(_currentShip);
-                    }
-                    else { //highlight token
+                    if(player.board()[button.button.coord] ==
+                       Token::SpaceToken) { //ensure only empty space is clicked
                         _highlighted = true;
                         highlightAll(None);
                         highlights.clear();
@@ -220,7 +208,6 @@ bool PlacementMenu::handleClick(sf::RenderWindow &window, Player &player) {
                     }
                     break;
                 case HighlightType::Primary: //unhighlight the token
-                    cout << "primary button pressed" << endl;
                     _highlighted = false;
                     highlightAll(None);
                     highlights.clear();
@@ -228,7 +215,6 @@ bool PlacementMenu::handleClick(sf::RenderWindow &window, Player &player) {
                     break;
                 case HighlightType::Secondary: //place the ship!
                     clickPlacedToken = true;
-                    cout << "secondary button pressed" << endl;
                     //make the button primary so we can place the ship
                     button.highlightType = Primary;
                     placeShip(player);
