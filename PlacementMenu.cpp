@@ -15,7 +15,8 @@ PlacementMenu::PlacementMenu() :_nShipsPlaced(0), _highlighted(false),
 _currentShip(DestroyerToken) {
     _loaded = _background.loadFromFile("ShipPlacement.png") &&
               _tokens.loadFromFile("TokenSheet.png") &&
-              _highlight.loadFromFile("TokenSelection.png");
+              _highlight.loadFromFile("TokenSelection.png") &&
+              _font.loadFromFile("Starjedi.ttf");
 }//end constructor
 
 
@@ -166,6 +167,13 @@ void PlacementMenu::initialize(Player &player) {
         position.y += sprite.getGlobalBounds().height;
         position.x = spriteStart.x * scale.x;
     }//end for i
+
+    randomizeButton.setFont(_font);
+    randomizeButton.setScale(scale);
+    randomizeButton.setString("Randomize");
+    randomizeButton.setCharacterSize(20);
+    randomizeButton.setColor(sf::Color::Yellow);
+    randomizeButton.setPosition(750, 350);
 }//end initialize
 
 
@@ -174,6 +182,7 @@ window */
 void PlacementMenu::draw(sf::RenderWindow &window) {
     if(loaded()) {
         window.draw(background);
+        window.draw(randomizeButton);
         for(auto btn : tokens) {
             window.draw(btn.button.sprite);
         }
@@ -191,6 +200,34 @@ bool PlacementMenu::handleClick(sf::RenderWindow &window, Player &player) {
     if(!loaded()) {
         return clickPlacedToken;
     }
+
+    //check if randomize button has been clicked
+    if(util::clicked(randomizeButton, sf::Mouse::Left, window)) {
+        clickPlacedToken = true;
+        Token nextShip = _currentShip;
+        switch(_currentShip) {
+            case DestroyerToken:
+                nextShip = FrigateToken;
+                break;
+            case FrigateToken:
+                nextShip = CrusaderToken;
+                break;
+            case CrusaderToken:
+                nextShip = ValkyrieToken;
+                break;
+            case ValkyrieToken:
+                nextShip = InterceptorToken;
+                break;
+            case InterceptorToken:
+            default:
+                break;
+        }//end switch
+        //now place the ship randomly
+        _nShipsPlaced++;
+        util::placeRandom(player.getBoard(), _currentShip);
+        _currentShip = nextShip;
+        return clickPlacedToken;
+    }//end if
 
     //Determine which, if any, token has been clicked
     for(auto itr = tokens.begin(); itr != tokens.end(); itr++) {

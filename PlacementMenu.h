@@ -46,9 +46,11 @@ class PlacementMenu {
         sf::Texture _background;
         sf::Texture _tokens;
         sf::Texture _highlight;
+        sf::Font _font;
         std::vector<HighlightButton> tokens;
         std::vector<sf::Sprite> highlights;
         sf::Sprite background;
+        sf::Text randomizeButton;
 };//end PlacementMenu
 
 #endif

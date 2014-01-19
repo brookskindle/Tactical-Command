@@ -57,6 +57,7 @@ ScoreScreen::ExitStatus ScoreScreen::show(sf::RenderWindow &window,
     text.setFont(_font);
     text.setScale(scale); //scale font
     text.setString("Player #"+std::to_string(winner->id())+" is the winner");
+    text.setColor(sf::Color::Yellow);
 
     //place text in middle of screen
     float tWidth = text.getGlobalBounds().width, //text width
