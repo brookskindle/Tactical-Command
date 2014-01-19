@@ -151,3 +151,35 @@ vector<Coordinate> util::generateCoordinates(Coordinate c, Direction d,
 
     return coords;
 }//end generateCoordinates
+
+
+/* Returns a path between two coordinate on the same line */
+vector<Coordinate> util::pathBetween(Coordinate c1, Coordinate c2) {
+    vector<Coordinate> coords;
+    
+    if(c1.row == c2.row || //coordinates on same line
+       c1.col == c2.col) {
+        int dist = 0;
+        Direction d(North);
+        if(c1.col < c2.col) { //go east
+            dist = c2.col - c1.col;
+            d = East;
+        }
+        else if(c1.col > c2.col) { //go west
+            dist = c1.col - c2.col;
+            d = West;
+        }
+        else if(c1.row < c2.row) { //go south
+            dist = c2.row - c1.row;
+            d = South;
+        }
+        else { //do north
+            dist = c1.row - c2.row;
+            d = North;
+        }
+        
+        coords = util::generateCoordinates(c1, d, ++dist);
+    }//end if
+
+    return coords;
+}//end pathBetween

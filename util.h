@@ -22,6 +22,7 @@ namespace util {
     bool placeAllShipsRandomly(Board &board);
     std::vector<Coordinate> generateCoordinates(Coordinate c, Direction d, 
                                                 unsigned int len);
+    std::vector<Coordinate> pathBetween(Coordinate c1, Coordinate c2);
 };//end util
 
 #endif

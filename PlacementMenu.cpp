@@ -311,15 +311,28 @@ void PlacementMenu::highlight(Token ship, Player &player) {
         if((hl.button.coord == cNorth ||
            hl.button.coord == cSouth ||
            hl.button.coord == cEast  ||
-           hl.button.coord == cWest) &&
-           player.board()[hl.button.coord] == SpaceToken) {
-            sf::Sprite sprite;
-            sprite.setTexture(_highlight);
-            sprite.setTextureRect(secondaryHighlight);
-            sprite.setPosition(hl.button.sprite.getPosition());
-            hl.highlightType = Secondary;
-            highlights.push_back(sprite);
-        }
+           hl.button.coord == cWest)) {
+            /* now, let's make sure that every token in
+            our desired path is a space token. If not, then
+            we cannot place the secondary token */
+            bool canHighlight = true;
+            for(Coordinate co :
+                util::pathBetween(coord, hl.button.coord)) {
+                if(player.board()[co] != SpaceToken) { //ship in the way
+                    canHighlight = false;
+                    break;
+                }
+            }//end for
+
+            if(canHighlight) {
+                sf::Sprite sprite;
+                sprite.setTexture(_highlight);
+                sprite.setTextureRect(secondaryHighlight);
+                sprite.setPosition(hl.button.sprite.getPosition());
+                hl.highlightType = Secondary;
+                highlights.push_back(sprite);
+            }
+        }//end if
     }//end for
 }//end highlight
 
