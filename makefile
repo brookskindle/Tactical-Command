@@ -29,7 +29,12 @@ all: $(SOURCES) $(EX) $(HEADERS)
 
 #build for debugging
 debug: CFLAGS += -g
-debug: $(SOURCES) $(EX)
+#debug: $(SOURCES) $(EX)
+debug: all
+
+#build for static linking
+static: CFLAGS += -static
+static: all
 
 #build the executable
 $(EX): $(OBJECTS)
