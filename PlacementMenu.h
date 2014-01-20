@@ -51,6 +51,7 @@ class PlacementMenu {
         std::vector<sf::Sprite> highlights;
         sf::Sprite background;
         sf::Text randomizeButton;
+        sf::Text instructions;
 };//end PlacementMenu
 
 #endif

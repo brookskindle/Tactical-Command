@@ -9,6 +9,7 @@ PlacementMenu.h -   header file for PlacementMenu class
 #include "util.h"
 #include "Game.h"
 using std::vector;
+using std::string;
 
 /* constructs the placement menu */
 PlacementMenu::PlacementMenu() :_nShipsPlaced(0), _highlighted(false),
@@ -174,6 +175,15 @@ void PlacementMenu::initialize(Player &player) {
     randomizeButton.setCharacterSize(20);
     randomizeButton.setColor(sf::Color::Yellow);
     randomizeButton.setPosition(750, 350);
+
+    instructions.setFont(_font);
+    string words = "Click on an area to place you ships, \n";
+    words += "or click the randomize button \n";
+    words += "to randomize each ship location.";
+    instructions.setScale(scale);
+    instructions.setString(words);
+    instructions.setCharacterSize(20);
+    instructions.setColor(sf::Color::Yellow);
 }//end initialize
 
 
@@ -189,6 +199,7 @@ void PlacementMenu::draw(sf::RenderWindow &window) {
         for(auto highlight : highlights) {
             window.draw(highlight);
         }
+        window.draw(instructions);
     }
 }//end draw
 
