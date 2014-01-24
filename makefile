@@ -24,13 +24,15 @@ ScoreScreen.cpp Direction.cpp PlacementMenu.cpp
 OBJECTS=$(SOURCES:.cpp=.o)
 
 
+#build for debugging
+debug: CFLAGS += -ggdb
+debug: all
+
 #build all
 all: $(SOURCES) $(EX) $(HEADERS)
 
-#build for debugging
-debug: CFLAGS += -g
-#debug: $(SOURCES) $(EX)
-debug: all
+#build for release
+release: all
 
 #build for static linking
 static: CFLAGS += -static
