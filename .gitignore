@@ -1,13 +1,18 @@
+#temp, object, and executable files
+*.swp
+*.o
+tacticalCommand
+
+#YouCompleteMe vim plugin
+.ycm*
+
+#GIMP ignores
+*.xcf
+
+#visual studio ignores
+Release
 Debug
 *.sln
 *.v11.suo
 *.vcxproj
-*.vcxproj.user
-*.vcxproj.filters
-*.swp
-*.o
-*.swp
-tacticalCommand
-.ycm*
-*.xcf
-Release
+*.vcxproj.*
