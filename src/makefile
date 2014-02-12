@@ -34,10 +34,6 @@ all: $(SOURCES) $(EX) $(HEADERS)
 #build for release
 release: all
 
-#build for static linking
-static: CFLAGS += -static
-static: all
-
 #build the executable
 $(EX): $(OBJECTS)
 	$(CC) -o $(EX) $(OBJECTS) $(CFLAGS) $(LIBS)
