@@ -20,7 +20,7 @@ const sf::Time SplashScreen::duration = sf::seconds(3.0);
     Continue        Splash screen finished displaying
 */
 SplashScreen::ExitStatus SplashScreen::show(sf::RenderWindow &window) {
-    string filename = "./SplashScreen.png";
+    string filename = "../resource/SplashScreen.png";
     sf::Texture texture;
     ExitStatus status = Failure;
 

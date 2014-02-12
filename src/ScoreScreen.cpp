@@ -11,8 +11,8 @@ using std::vector;
 
 /* Constructs the score screen */
 ScoreScreen::ScoreScreen() {
-    _loaded = (_background.loadFromFile("./ScoreScreen.png") &&
-               _font.loadFromFile("./Starjedi.ttf")) ? true : false;
+    _loaded = (_background.loadFromFile("../resource/ScoreScreen.png") &&
+               _font.loadFromFile("../resource/Starjedi.ttf")) ? true : false;
 }//end constructor
 
 

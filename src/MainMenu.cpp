@@ -13,9 +13,9 @@ using std::string;
 
 /* Constructs the MainMenu */
 MainMenu::MainMenu() :_loaded(false) {
-    if(_background.loadFromFile("MainMenu.png") &&
-       _playButton.loadFromFile("./PlayButton.png") &&
-       _exitButton.loadFromFile("./ExitButton.png")) {
+    if(_background.loadFromFile("../resource/MainMenu.png") &&
+       _playButton.loadFromFile("../resource/PlayButton.png") &&
+       _exitButton.loadFromFile("../resource/ExitButton.png")) {
         _loaded = true;
     }
 }//end constructor

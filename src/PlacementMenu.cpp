@@ -14,10 +14,10 @@ using std::string;
 /* constructs the placement menu */
 PlacementMenu::PlacementMenu() :_nShipsPlaced(0), _highlighted(false),
 _currentShip(DestroyerToken) {
-    _loaded = _background.loadFromFile("ShipPlacement.png") &&
-              _tokens.loadFromFile("TokenSheet.png") &&
-              _highlight.loadFromFile("TokenSelection.png") &&
-              _font.loadFromFile("Starjedi.ttf");
+    _loaded = _background.loadFromFile("../resource/ShipPlacement.png") &&
+              _tokens.loadFromFile("../resource/TokenSheet.png") &&
+              _highlight.loadFromFile("../resource/TokenSelection.png") &&
+              _font.loadFromFile("../resource/Starjedi.ttf");
 }//end constructor
 
 

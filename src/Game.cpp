@@ -38,7 +38,7 @@ void Game::start() {
         _window.create(sf::VideoMode(DEFAULT_WIDTH, DEFAULT_HEIGHT),
                        Game::GAME_NAME);
         _window.setVerticalSyncEnabled(true);
-        if(_icon.loadFromFile("icon.png")) {
+        if(_icon.loadFromFile("../resource/icon.png")) {
             _window.setIcon(256, 256, _icon.getPixelsPtr());
         }
         setStatus(ShowingSplashScreen);

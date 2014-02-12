@@ -14,8 +14,8 @@ using std::vector;
 
 /* Constructs the game screen */
 GameScreen::GameScreen() :_loaded(false) {
-    _loaded = _ships.loadFromFile("./TokenSheet.png") &&
-              _background.loadFromFile("./GameScreen.png");
+    _loaded = _ships.loadFromFile("../resource/TokenSheet.png") &&
+              _background.loadFromFile("../resource/GameScreen.png");
 }//end constructor
 
 
